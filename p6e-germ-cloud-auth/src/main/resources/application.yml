@@ -1,0 +1,65 @@
+# spring 配置
+spring:
+  # 名称配置
+  application:
+    name: P6E_GERM_OAUTH2
+server:
+  port: 9991
+
+
+# p6e 的配置
+p6e:
+  cache:
+    redis:
+      timeout: 60000
+      node:
+        host: 119.23.25.159
+        port: 6379
+        database: 10
+        password: lidashuang
+  cloud:
+    auth:
+      debug: true
+      me:
+        file: './auth/index.html'
+        page: 'me'
+        content:
+          __REGISTER_URL__: './register'
+          __WEBSITE_HOME_URL__: 'https://baidu.com'
+          __WEBSITE_HOME_TITLE__: 'P6e Auth'
+          __FORGET_PASSWORD_URL__: './forget_password'
+      login:
+        file: 'auth/index.html'
+        page: 'login'
+        content:
+          __REGISTER_URL__: './register'
+          __WEBSITE_HOME_URL__: 'https://baidu.com'
+          __WEBSITE_HOME_TITLE__: 'P6e Auth'
+          __FORGET_PASSWORD_URL__: './forget_password'
+      register:
+        file: 'auth/index.html'
+        page: 'register'
+        content:
+          __REGISTER_URL__: './register'
+          __WEBSITE_HOME_URL__: 'https://baidu.com'
+          __WEBSITE_HOME_TITLE__: 'P6e Auth'
+          __FORGET_PASSWORD_URL__: './forget_password'
+      forget-password:
+        file: 'auth/index.html'
+        page: 'forget_password'
+        content:
+          __REGISTER_URL__: './register'
+          __WEBSITE_HOME_URL__: 'https://baidu.com'
+          __WEBSITE_HOME_TITLE__: 'P6e Auth'
+          __FORGET_PASSWORD_URL__: './forget_password'
+
+## mybatis 的配置
+#mybatis:
+#  config-location: classpath:./xml/mybatis-config.xml
+#  mapper-locations: classpath:./xml/mybatis/*.xml
+
+# 日志
+#logging:
+#  level:
+#    com.p6e.germ.oauth2.infrastructure.repository.mapper: debug
+

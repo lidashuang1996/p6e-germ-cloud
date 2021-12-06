@@ -1,0 +1,12 @@
+{
+  "properties": [
+    {
+      "name": "p6e.cloud.auth",
+      "type": "java.lang.Integer",
+      "description": "Default page number configuration for queries.",
+      "defaultValue": 1
+    }
+  ]
+}
+
+
