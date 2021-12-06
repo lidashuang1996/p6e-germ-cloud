@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.jurisdiction.mybatis.mapper.JurisdictionMapper">
+
+    <select id="selectById" parameterType="club.p6e.germ.jurisdiction.model.JurisdictionDb"
+            resultType="club.p6e.germ.jurisdiction.model.JurisdictionDb">
+        SELECT
+            `A`.`uid` AS `userId`,
+            `B`.`id` AS `roleId`,
+            `B`.`weight` AS `roleWeight`,
+            `B`.`name` AS `roleName`,
+            `B`.`describe` AS `roleDescribe`,
+            `C`.`param` AS `roleParam`,
+            `D`.`id` AS `urlId`,
+            `D`.`url` AS `urlUrl`,
+            `D`.`base_url` AS `urlBaseUrl`,
+            `D`.`method` AS `urlMethod`,
+            `D`.`config` AS `urlConfig`,
+            `D`.`name` AS `urlName`,
+            `D`.`describe` AS `urlDescribe`
+        FROM
+            `p6e_jurisdiction_user_relation_role` AS `A`
+                LEFT JOIN `p6e_jurisdiction_role` AS `B` ON `A`.`rid` = `B`.`id`
+                LEFT JOIN `p6e_jurisdiction_role_relation_url` AS `C` ON `B`.`id` = `C`.`rid`
+                LEFT JOIN `p6e_jurisdiction_url` AS `D` ON `C`.`uid` = `D`.`id`
+        WHERE
+            `A`.`uid` = #{userId};
+    </select>
+
+</mapper>

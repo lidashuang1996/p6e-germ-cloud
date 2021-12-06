@@ -1,0 +1,9 @@
+{
+  "$name": "芝麻故事",
+  "$user": "2499087056@qq.com",
+  "$from": "2499087056@qq.com",
+  "$password": "pggafgmwppyadibh",
+  "mail.host": "smtp.qq.com",
+  "mail.smtp.auth": "true",
+  "mail.transport.protocol": "smtp"
+}

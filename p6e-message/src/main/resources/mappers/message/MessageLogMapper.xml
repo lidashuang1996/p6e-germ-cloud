@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.message.mybatis.mapper.MessageLogMapper">
+
+    <insert id="create" parameterType="club.p6e.germ.message.model.MessageLogDb"
+            keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            `p6e_message_log` (`mark`, `status`, `content`, `pid`, `tid`, `source`)
+        VALUE (#{mark}, #{status}, #{content}, #{pid}, #{tid}, #{source});
+    </insert>
+
+
+    <select id="count" parameterType="club.p6e.germ.message.model.MessageLogDb" resultType="long">
+        SELECT
+            COUNT(`id`) AS `count`
+        FROM
+             `p6e_message_log`
+        WHERE
+            `status` = 10
+            <if test="startDateTime != null"> AND `A`.`data` <![CDATA[>=]]> #{startDateTime} </if>
+            <if test="endDateTime != null"> AND `A`.`data` <![CDATA[<=]]> #{endDateTime} </if>;
+    </select>
+
+
+
+    <select id="select" parameterType="club.p6e.germ.message.model.MessageLogDb" resultType="club.p6e.germ.message.model.MessageLogDb">
+        SELECT
+            `A`.`mark` AS `mark`,
+            `A`.`pid` AS `pid`,
+            `A`.`tid` AS `tid`,
+            `B`.`id` AS `id`,
+            `B`.`status` AS `status`,
+            `B`.`content` AS `content`,
+            `B`.`date` AS `date`
+        FROM
+            (
+                SELECT `mark`, `id`, `pid`, `tid`, `status`, `content`, `date` FROM `p6e_message_log`
+                WHERE `status` = 10
+                    <if test="startDateTime != null"> AND `data` <![CDATA[>=]]> #{startDateTime} </if>
+                    <if test="endDateTime != null"> AND `data` <![CDATA[<=]]> #{endDateTime} </if>
+                ORDER BY `id` DESC  LIMIT #{offset}, #{size}
+            ) AS `A`
+            LEFT JOIN `p6e_message_log` AS `B` ON `A`.`mark` = `B`.`mark`
+        ORDER BY
+            `A`.`id` DESC,
+            `B`.`date` ASC;
+    </select>
+
+</mapper>

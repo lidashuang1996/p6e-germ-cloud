@@ -1,0 +1,144 @@
+POST {{api}}/sms/1
+Content-Type: application/json
+
+{
+  "recipients": ["1294935733@qq.com"],
+  "templateId": "1",
+  "templateParams": {}
+}
+
+###
+POST {{api}}/mail/2
+Content-Type: application/json
+
+{
+  "recipients": ["1294935733@qq.com"],
+  "templateId": "2",
+  "templateParams": {}
+}
+
+
+
+###
+GET {{api}}/console/log/list
+
+
+
+###
+GET {{api}}/console/template/list
+
+###
+DELETE {{api}}/console/template/delete/8?operate=777
+
+###
+POST {{api}}/console/template/create?operate=123
+Content-Type: application/json
+
+{
+  "type": "SMS",
+  "title": "SMS_TEST",
+  "name": "SMS_TEST_NAME",
+  "parser": "DEFAULT",
+  "content": "我是模版的内容可以恒产的，可以是HTML",
+  "describe": "我是模版的 SMS 的描述"
+}
+
+###
+PUT {{api}}/console/template/update/8?operate=333
+Content-Type: application/json
+
+{
+  "type": "SMS",
+  "title": "SMS_UPDATE",
+  "name": "SMS_TEST_NAME_UPDATE",
+  "parser": "DEFAULT",
+  "content": "我是模版的内容可以恒产的，可以是HTML_UPDATE",
+  "describe": "我是模版的 SMS 的描述_UPDATE"
+}
+
+
+
+
+
+
+###
+GET {{api}}/console/group/list
+
+###
+GET {{api}}/console/group/list/all
+
+###
+DELETE {{api}}/console/group/delete/12?operate=444
+
+###
+POST {{api}}/console/group/create?operate=555
+Content-Type: application/json
+
+{
+  "status": "1",
+  "type": "SMS",
+  "limit": "0/0/0",
+  "route": "0/0/0",
+  "name": "SMS_TEST_NAME",
+  "describe": "我是模版的 SMS 的描述"
+}
+
+###
+PUT {{api}}/console/group/update/11?operate=666
+Content-Type: application/json
+
+{
+  "status": "1",
+  "type": "SMS",
+  "limit": "0/0/0",
+  "route": "tr",
+  "name": "SMS_TEST_NAME",
+  "describe": "我是模版的 SMS 的描述"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+###
+GET {{api}}/console/platform/list
+
+###
+GET {{api}}/console/platform/list?groupId=9
+
+###
+DELETE {{api}}/console/platform/delete/12?operate=q3
+
+###
+POST {{api}}/console/platform/create?operate=q1
+Content-Type: application/json
+
+{
+  "groupId": 9,
+  "weight": "1",
+  "status": "0",
+  "limit": "0/0/0",
+  "config": "{}",
+  "name": "SMS_TEST_NAME",
+  "describe": "我是模版的 SMS 的描述"
+}
+
+###
+PUT {{api}}/console/platform/update/12?operate=q2
+Content-Type: application/json
+
+{
+  "weight": "1",
+  "status": "0",
+  "limit": "0/0/0",
+  "config": "{}",
+  "name": "SMS_TEST_NAME_UPDATE111",
+  "describe": "我是模版的 SMS 的描述_UPDATE"
+}

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.message.mybatis.mapper.MessageGroupMapper">
+
+    <resultMap type="club.p6e.germ.message.model.MessageGroupDb" id="messageGroupResultMap">
+        <id column="groupId" property="id"/>
+        <result column="groupType" property="type"/>
+        <result column="groupStatus" property="status"/>
+        <result column="groupLimit" property="limit"/>
+        <result column="groupRoute" property="route"/>
+        <result column="groupName" property="name"/>
+        <result column="groupDescribe" property="describe"/>
+        <result column="groupCreateDate" property="createDate"/>
+        <result column="groupUpdateDate" property="updateDate"/>
+        <result column="groupOperate" property="operate"/>
+
+        <association property="platforms" javaType="club.p6e.germ.message.model.MessagePlatformDb">
+            <id column="platformId" property="id"/>
+            <result column="platformWeight" property="weight"/>
+            <result column="platformStatus" property="status"/>
+            <result column="platformLimit" property="limit"/>
+            <result column="platformActuator" property="actuator"/>
+            <result column="platformConfig" property="config"/>
+            <result column="platformName" property="name"/>
+            <result column="platformDescribe" property="describe"/>
+            <result column="platformCreateDate" property="createDate"/>
+            <result column="platformUpdateDate" property="updateDate"/>
+            <result column="platformOperate" property="operate"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByIdComplete" parameterType="int" resultMap="messageGroupResultMap">
+        SELECT
+            A.`id` AS `groupId`,
+            A.`type` AS `groupType`,
+            A.`status` AS `groupStatus`,
+            A.`limit` AS `groupLimit`,
+            A.`route` AS `groupRoute`,
+            A.`name` AS `groupName`,
+            A.`describe` AS `groupDescribe`,
+            A.`create_date` AS `groupCreateDate`,
+            A.`update_date` AS `groupUpdateDate`,
+            A.`operate` AS `groupOperate`,
+            C.`id` AS `platformId`,
+            C.`weight` AS `platformWeight`,
+            C.`status` AS `platformStatus`,
+            C.`limit` AS `platformLimit`,
+            C.`actuator` AS `platformActuator`,
+            C.`config` AS `platformConfig`,
+            C.`name` AS `platformName`,
+            C.`describe` AS `platformDescribe`,
+            C.`create_date` AS `platformCreateDate`,
+            C.`update_date` AS `platformUpdateDate`,
+            C.`operate` AS `platformOperate`
+        FROM
+            `p6e_message_group` AS A
+                LEFT JOIN `p6e_message_group_relation_platform` AS B ON A.`id` = B.`gid`
+                LEFT JOIN `p6e_message_platform` AS C ON B.`pid` = C.`id`
+        WHERE A.`id` = #{id} AND A.`is_delete` = 0 AND C.`is_delete` = 0 LIMIT 0, 1;
+    </select>
+
+    <select id="selectComplete" parameterType="club.p6e.germ.message.model.MessageGroupDb" resultMap="messageGroupResultMap">
+        SELECT
+            A.`id` AS `groupId`,
+            A.`type` AS `groupType`,
+            A.`status` AS `groupStatus`,
+            A.`limit` AS `groupLimit`,
+            A.`route` AS `groupRoute`,
+            A.`name` AS `groupName`,
+            A.`describe` AS `groupDescribe`,
+            A.`create_date` AS `groupCreateDate`,
+            A.`update_date` AS `groupUpdateDate`,
+            A.`operate` AS `groupOperate`,
+            C.`id` AS `platformId`,
+            C.`weight` AS `platformWeight`,
+            C.`status` AS `platformStatus`,
+            C.`limit` AS `platformLimit`,
+            C.`actuator` AS `platformActuator`,
+            C.`config` AS `platformConfig`,
+            C.`name` AS `platformName`,
+            C.`describe` AS `platformDescribe`,
+            C.`create_date` AS `platformCreateDate`,
+            C.`update_date` AS `platformUpdateDate`,
+            C.`operate` AS `platformOperate`
+        FROM
+            `p6e_message_group` AS A
+                LEFT JOIN `p6e_message_group_relation_platform` AS B ON A.id = B.gid
+                LEFT JOIN `p6e_message_platform` AS C ON B.pid = C.id
+        WHERE A.`is_delete` = 0 AND C.`is_delete` = 0
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <select id="count" parameterType="club.p6e.germ.message.model.MessageGroupDb" resultType="long">
+        SELECT
+            COUNT(`id`) AS `count`
+        FROM
+            `p6e_message_group`
+        WHERE `is_delete` = 0
+            <if test="id != null">AND `id` = #{id}</if>
+            <if test="name != null">AND `name` = #{name}</if>
+            <if test="type != null">AND `type` = #{type}</if>;
+    </select>
+
+    <select id="select" parameterType="club.p6e.germ.message.model.MessageGroupDb" resultType="club.p6e.germ.message.model.MessageGroupDb">
+        SELECT
+            `id`,
+            `type`,
+            `status`,
+            `limit`,
+            `route`,
+            `name`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate`
+        FROM
+            `p6e_message_group`
+        WHERE `is_delete` = 0
+            <if test="id != null">AND `id` = #{id}</if>
+            <if test="name != null">AND `name` = #{name}</if>
+            <if test="type != null">AND `type` = #{type}</if>
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <insert id="create" parameterType="club.p6e.germ.message.model.MessageGroupDb"
+            keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            `p6e_message_group`
+            (
+                `type`,
+                `status`,
+                `limit`,
+                `route`,
+                `name`,
+                `operate`
+                <if test="describe != null">, `describe`</if>
+             )
+        VALUE (
+            #{type},
+            #{status},
+            #{limit},
+            #{route},
+            #{name},
+            #{operate}
+            <if test="describe != null">, #{describe}</if>
+        );
+    </insert>
+
+    <update id="update" parameterType="club.p6e.germ.message.model.MessageGroupDb">
+        UPDATE
+            `p6e_message_group`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="operate != null">`operate` = #{operate},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="limit != null">`limit` = #{limit},</if>
+            <if test="route != null">`route` = #{route},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="describe != null">`describe` = #{describe},</if>
+        </trim>
+        WHERE `id` = #{id};
+    </update>
+
+    <update id="delete" parameterType="club.p6e.germ.message.model.MessageGroupDb">
+        UPDATE `p6e_message_group` SET `is_delete` = 1, `operate` = #{operate} WHERE `id` = #{id};
+    </update>
+
+    <select id="selectById" parameterType="int" resultType="club.p6e.germ.message.model.MessageGroupDb">
+        SELECT
+            `id`,
+            `type`,
+            `status`,
+            `limit`,
+            `route`,
+            `name`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate`
+        FROM
+            `p6e_message_group`
+        WHERE `id` = #{id} AND `is_delete` = 0
+        LIMIT 0, 1;
+    </select>
+
+</mapper>

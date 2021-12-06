@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.message.mybatis.mapper.MessageGroupRelationPlatformMapper">
+
+    <select id="select" parameterType="club.p6e.germ.message.model.MessageGroupRelationPlatformDb"
+            resultType="club.p6e.germ.message.model.MessageGroupRelationPlatformDb">
+        SELECT
+            `gid`,
+            `pid`
+        FROM
+            `p6e_message_group_relation_platform`
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="gid != null"> AND `gid` = #{gid} </if>
+            <if test="pid != null"> AND `pid` = #{pid} </if>
+        </trim>
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <insert id="create" parameterType="club.p6e.germ.message.model.MessageGroupRelationPlatformDb">
+        INSERT INTO
+            `p6e_message_group_relation_platform`
+            (
+                `gid`,
+                `pid`
+            )
+        VALUE (
+            #{gid},
+            #{pid}
+        );
+    </insert>
+
+    <delete id="delete" parameterType="club.p6e.germ.message.model.MessageGroupRelationPlatformDb">
+        DELETE FROM `p6e_message_group_relation_platform`
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="gid != null"> AND `gid` = #{gid} </if>
+            <if test="pid != null"> AND `pid` = #{pid} </if>
+        </trim>;
+    </delete>
+
+</mapper>

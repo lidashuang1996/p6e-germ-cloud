@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.message.mybatis.mapper.MessagePlatformMapper">
+
+    <select id="count" parameterType="club.p6e.germ.message.model.MessagePlatformDb" resultType="long">
+        SELECT
+            COUNT(`id`) AS `count`
+        FROM
+            `p6e_message_platform`
+        <if test="groupId != null">
+            LEFT JOIN `p6e_message_group_relation_platform` ON `id` = `pid`
+        </if>
+        WHERE `is_delete` = 0
+            <if test="id != null">AND `id` = #{id}</if>
+            <if test="name != null">AND `name` = #{name}</if>
+            <if test="groupId != null">AND `gid` = #{groupId}</if>
+    </select>
+
+    <select id="select" parameterType="club.p6e.germ.message.model.MessagePlatformDb" resultType="club.p6e.germ.message.model.MessagePlatformDb">
+        SELECT
+            `id`,
+            `status`,
+            `weight`,
+            `limit`,
+            `config`,
+            `name`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate` AS `operate`
+        FROM
+            `p6e_message_platform`
+        <if test="groupId != null">
+            LEFT JOIN `p6e_message_group_relation_platform` ON `id` = `pid`
+        </if>
+        WHERE `is_delete` = 0
+            <if test="groupId != null">AND `gid` = #{groupId}</if>
+            <if test="search != null">
+                AND (
+                    `id` LIKE CONCAT('%', #{search}, '%')
+                    OR `name` LIKE CONCAT('%', #{search}, '%')
+                )
+            </if>
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <insert id="create" parameterType="club.p6e.germ.message.model.MessagePlatformDb"
+            keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            `p6e_message_platform`
+            (
+                `weight`,
+                `status`,
+                `actuator`,
+                `limit`,
+                `config`,
+                `name`,
+                `operate`
+                <if test="describe != null">, `describe`</if>
+            )
+        VALUE (
+            #{weight},
+            #{status},
+            #{actuator},
+            #{limit},
+            #{config},
+            #{name},
+            #{operate}
+            <if test="describe != null">, #{describe}</if>
+        );
+    </insert>
+
+    <update id="update" parameterType="club.p6e.germ.message.model.MessagePlatformDb">
+        UPDATE
+            `p6e_message_platform`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="operate != null">`operate` = #{operate},</if>
+            <if test="weight != null">`weight` = #{weight},</if>
+            <if test="limit != null">`limit` = #{limit},</if>
+            <if test="config != null">`config` = #{config},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="describe != null">`describe` = #{describe},</if>
+        </trim>
+        WHERE `id` = #{id};
+    </update>
+
+    <update id="delete" parameterType="club.p6e.germ.message.model.MessagePlatformDb">
+        UPDATE `p6e_message_platform` SET `is_delete` = 1, `operate` = #{operate} WHERE `id` = #{id};
+    </update>
+
+    <select id="selectById" parameterType="club.p6e.germ.message.model.MessagePlatformDb"
+            resultType="club.p6e.germ.message.model.MessagePlatformDb">
+        SELECT
+            `id`,
+            `status`,
+            `weight`,
+            `limit`,
+            `config`,
+            `name`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate` AS `operate`
+        FROM
+            `p6e_message_platform`
+        WHERE `id` = #{id} AND `is_delete` = 0
+            LIMIT 0, 1;
+    </select>
+
+</mapper>

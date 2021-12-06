@@ -1,0 +1,26 @@
+# 端口配置
+server:
+  port: 17000
+
+# p6e
+p6e:
+  jurisdiction:
+    data-source:
+      url: jdbc:mysql://119.23.25.159:3306/p6e?autoReconnect=true&useSSL=false&characterEncoding=UTF-8
+      username: root
+      password: Root1234!@#$
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  cache:
+    redis:
+      timeout: 30000
+      node:
+        database: 7
+        host: 119.23.25.159
+        port: 6379
+        password: lidashuang
+
+# spring 配置
+spring:
+  # 名称配置
+  application:
+    name: P6E_GERM_MESSAGE

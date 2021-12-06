@@ -1,0 +1,7 @@
+spring:
+  codec:
+    max-in-memory-size: 30MB
+
+server:
+  http2:
+    enabled: true

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+  <script type="text/javascript" src="./js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="./js/spark-md5.js"></script>
+</head>
+<body>
+<input type="file" onchange="a(this)"/>
+<button onclick="end()">zongjie</button>
+<script type="text/javascript">
+
+		console.log(SparkMD5.hashBinary);
+  let MARK = '';
+  const BASE_URL = "http://127.0.0.1:8080";
+
+  function start (f) {
+    $.ajax({
+      url: BASE_URL + '/test/start',
+      type: 'POST',
+      contentType: 'application/json;charset=UTF-8',
+      dataType: 'json',
+      success: (res) => {
+        MARK = res.mark;
+        f();
+      }, error: (e) => {
+        console.error(e);
+      }
+    });
+  }
+
+  function end () {
+    $.ajax({
+      url: BASE_URL + '/test/end?mark=' + MARK,
+      type: 'POST',
+      contentType: 'application/json;charset=UTF-8',
+      dataType: 'json',
+      success: (res) => {
+        console.log(res);
+      }, error: (e) => {
+        console.error(e);
+      }
+    });
+  }
+
+  function upload (chunk, content) {
+      const f = new FormData();
+      const blob = new Blob([content], { type: "application/octet-binary" });
+      f.append('file', blob);
+      console.log(chunk + '  ----  ' + SparkMD5.ArrayBuffer.hash(content));
+      $.ajax({
+          url: BASE_URL + '/test/upload?mark=' + MARK + '&chunk=' + chunk,
+          type: 'POST',
+					data: f,
+          processData : false,
+          contentType: false,
+          success: (res) => {
+              console.log(res);
+          }, error: (e) => {
+              console.error(e);
+          }
+      });
+  }
+
+</script>
+<script type="text/javascript">
+
+  function a (input) {
+      const files = input.files;
+      if (files.length) {
+				var file = files[0];
+				var reader = new FileReader();//new一个FileReader实例
+				reader.readAsArrayBuffer(file);
+				reader.onload = function() {
+						start(() => {
+                //读取完成后，数据保存在对象的result属性中 ArrayBuffer
+                const r = this.result;
+                const r8 = new Uint8Array(r);
+                let index = 0;
+                const r8Length = r8.byteLength;
+                while (r8Length > 1024 * 1024 * 10 * index) {
+                    const content = r8.slice(1024 * 1024 * 10 * index, Math.min(1024 * 1024 * 10 * (++index), r8Length));
+                    upload(index, content);
+                }
+                console.log(r8Length);
+						});
+				}
+			}
+    // start(() => {
+    //     // 读取文件上传
+		//
+		// 		//
+    // });
+  }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p6e.germ.message.mybatis.mapper.MessageTemplateMapper">
+
+    <select id="count" parameterType="club.p6e.germ.message.model.MessageTemplateDb" resultType="long">
+        SELECT
+            COUNT(`id`) AS `count`
+        FROM
+            `p6e_message_template`
+        WHERE `is_delete` = 0
+        <if test="id != null"> AND `id` = #{id} </if>
+        <if test="name != null"> AND `name` = #{name} </if>;
+    </select>
+
+    <select id="select" parameterType="club.p6e.germ.message.model.MessageTemplateDb" resultType="club.p6e.germ.message.model.MessageTemplateDb">
+        SELECT
+            `id`,
+            `type`,
+            `title`,
+            `name`,
+            `parser`,
+            `content`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate`
+        FROM
+            `p6e_message_template`
+        WHERE `is_delete` = 0
+        <if test="id != null"> AND `id` = #{id} </if>
+        <if test="name != null"> AND `name` = #{name} </if>
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <insert id="create" parameterType="club.p6e.germ.message.model.MessageTemplateDb"
+            keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            `p6e_message_template`
+            (
+                `type`,
+                `title`,
+                `name`,
+                `parser`,
+                `content`,
+                `operate`
+                <if test="describe != null">, `describe`</if>
+            )
+        VALUE (
+            #{type},
+            #{title},
+            #{name},
+            #{parser},
+            #{content},
+            #{operate}
+            <if test="describe != null">, #{describe}</if>
+        );
+    </insert>
+
+    <update id="update" parameterType="club.p6e.germ.message.model.MessageTemplateDb">
+        UPDATE
+            `p6e_message_template`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="operate != null">`operate` = #{operate},</if>
+            <if test="type != null"> `type` = #{type}, </if>
+            <if test="title != null"> `title` = #{title}, </if>
+            <if test="name != null"> `name` = #{name}, </if>
+            <if test="parser != null"> `parser` = #{parser}, </if>
+            <if test="content != null"> `content` = #{content}, </if>
+            <if test="describe != null"> `describe` = #{describe}, </if>
+        </trim>
+        WHERE `id` = #{id};
+    </update>
+
+    <update id="delete" parameterType="club.p6e.germ.message.model.MessageTemplateDb">
+        UPDATE `p6e_message_template` SET `is_delete` = 1, `operate` = #{operate} WHERE `id` = #{id};
+    </update>
+
+    <select id="selectById" parameterType="int" resultType="club.p6e.germ.message.model.MessageTemplateDb">
+        SELECT
+            `id`,
+            `type`,
+            `title`,
+            `name`,
+            `parser`,
+            `content`,
+            `describe`,
+            `create_date` AS `createDate`,
+            `update_date` AS `updateDate`,
+            `operate`
+        FROM
+            `p6e_message_template`
+        WHERE
+            `id` = #{id} AND `is_delete` = 0
+            LIMIT 0, 1;
+    </select>
+
+
+
+</mapper>
