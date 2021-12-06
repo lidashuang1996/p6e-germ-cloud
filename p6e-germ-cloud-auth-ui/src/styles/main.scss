@@ -1,0 +1,300 @@
+.sign-in {
+  width: 100%;
+  height: 100vh;
+  background-color: #242e48;
+  position: relative;
+  .sign-in-container {
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .sign-in-qrcode {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      height: 36px;
+      width: 36px;
+      cursor: pointer;
+      background-image: url("../assets/ewm.svg");
+      background-size: 48px 48px;
+      background-position: -10px -2px;
+      background-repeat: no-repeat;
+    }
+    .sign-in-operation {
+      width: 100%;
+      background-color: #FFFFFF;
+      padding: 16px;
+      border-radius: 16px;
+    }
+    .sign-in-bulletin-board {
+      width: 100%;
+      height: 100px;
+      margin-top: 16px;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #334164;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .sign-app-bulletin-board-bg {
+        width: 169px;
+        height: 88px;
+        position: absolute;
+        bottom: 0;
+        right: 24px;
+        background-image: url("../assets/bulletin.svg");
+      }
+      .sign-app-bulletin-board-qrcode {
+        height: 100px;
+        padding: 14px 16px;
+        img {
+          height: 100%;
+        }
+      }
+      .sign-app-bulletin-board-content {
+        color: #FFFFFF;
+        width: 250px;
+        span {
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+  }
+  .sign-in-title {
+    font-size: 24px;
+    color: #263241;
+    text-align: center;
+    padding: 16px;
+  }
+  .sign-in-other {
+    margin-top: 24px;
+    padding: 0 16px;
+    .sign-in-other-divider {
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .sign-in-other-list {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .sign-in-other-item {
+        width: 104px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+        border: 1px solid #ccd2da;
+        cursor: pointer;
+        color: #495666;
+        margin-right: 12px;
+        &:hover {
+          border-color: #2483ff;
+        }
+        .ico {
+          font-size: 16px;
+          margin-top: 4px;
+        }
+        .name {
+          margin-left: 6px;
+        }
+      }
+    }
+  }
+  .sign-in-nav {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sign-in-tab {
+    padding: 16px 16px 6px;
+    .ant-tabs-bar {
+      margin: 0;
+    }
+    .ant-tabs-tab {
+      padding: 12px 2px;
+      margin-right: 24px;
+    }
+  }
+  .sign-in-ac {
+    padding: 0 16px;
+  }
+  .sign-in-qc {
+    padding: 0 16px;
+    position: relative;
+    .sign-in-qc-box {
+      width: 100%;
+      height: 245px;
+      margin: 16px 0;
+      padding: 0 24px;
+      background-color: #f8fafd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #efefef;
+      border-radius: 6px;
+      overflow: hidden;
+      .sign-in-qc-box-t1 {
+        width: 120px;
+        height: 197px;
+        background-color: #42b983;
+      }
+      .sign-in-qc-box-t2 {
+        width: 197px;
+        height: 197px;
+      }
+    }
+    .sign-in-qc-box-expire {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      width: calc(100% - 32px);
+      height: 245px;
+      border-radius: 6px;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .sign-in-qc-box-expire-title {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+      }
+      .sign-in-qc-box-expire-button {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  .sign-in-confirm {
+    padding: 12px;
+  }
+  .sign-in-input-code {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .sign-in-input-code-input {
+      height: 50px;
+      width: 74%;
+      margin-right: 6px;
+    }
+    .sign-in-input-code-button {
+      height: 50px;
+      width: 36%;
+    }
+  }
+  .sign-in-input-account {
+    width: 100%;
+    margin-top: 16px;
+    height: 50px;
+  }
+  .sign-in-input-password {
+    width: 100%;
+    margin-top: 16px;
+    height: 50px;
+  }
+  .sign-in-input-password svg {
+    font-size: 16px;
+  }
+  .sign-in-error {
+    margin-top: 16px;
+    color: red;
+  }
+  .sign-in-button {
+    width: 100%;
+    margin-top: 16px;
+    height: 46px;
+  }
+  .sign-in-button-a {
+    padding: 0;
+  }
+}
+.sign-confirm {
+  width: 100%;
+  height: 100vh;
+  background-color: #242e48;
+  position: relative;
+  .sign-confirm-container {
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #FFFFFF;
+    padding: 16px;
+    border-radius: 16px;
+    transform: translate(-50%, -50%);
+    .sign-confirm-title {
+      font-size: 24px;
+      color: #263241;
+      text-align: center;
+      padding: 16px;
+    }
+    .sign-confirm-content {
+      padding: 24px;
+      .sign-confirm-content-icon {
+        width: 88px;
+        height: 88px;
+        border-radius: 12px;
+        margin: 0 auto;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .sign-confirm-content-title {
+        font-size: 18px;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .sign-confirm-content-describe {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 14px;
+      }
+      .sign-confirm-content-button {
+        margin-top: 24px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+
+.me {
+  width: 100%;
+  height: 100vh;
+  background-color: #242e48;
+  position: relative;
+  .me-container {
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #FFFFFF;
+    padding: 16px;
+    border-radius: 16px;
+    transform: translate(-50%, -50%);
+    .me-title {
+      font-size: 24px;
+      color: #263241;
+      text-align: center;
+      padding: 16px;
+    }
+    .me-content {
+      padding: 24px;
+    }
+  }
+}
