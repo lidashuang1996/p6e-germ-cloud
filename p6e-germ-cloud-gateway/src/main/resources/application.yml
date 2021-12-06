@@ -1,0 +1,39 @@
+spring:
+  application:
+    # 程序名称
+    name: p6e-germ-cloud-gateway-nacos-config
+  jackson:
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+    time-zone: GMT+8
+  cloud:
+    gateway:
+      routes:
+        - id: aaaa
+          uri: http://127.0.0.1:9991
+          predicates:
+            - Path=/b/**
+          filters:
+#            - Auth
+            - Log
+#            - Jurisdiction
+            - CrossDomain
+            - StripPrefix=1
+#    nacos:
+#      discovery:
+#        server-addr: 182.254.180.56:8848
+#      config:
+#        server-addr: 182.254.180.56:8848
+#        file-extension: properties
+#        prefix: p6e-germ-cloud-gateway-nacos-config
+#        group: DEFAULT_GROUP
+
+p6e:
+  cache:
+    redis:
+      timeout: 60000
+      node:
+        host: 119.23.25.159
+        port: 6379
+        database: 10
+        password: lidashuang
+      clientName: 'TEST'
