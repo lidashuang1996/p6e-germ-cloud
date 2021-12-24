@@ -27,4 +27,6 @@ public class JurisdictionUrlModel implements Serializable {
     private LocalDateTime updateDate;
     private String operate;
     private Integer isDelete;
+
+
 }

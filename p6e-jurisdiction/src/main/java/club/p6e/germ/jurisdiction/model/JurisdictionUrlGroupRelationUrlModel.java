@@ -21,7 +21,7 @@ public class JurisdictionUrlGroupRelationUrlModel implements Serializable {
     private Integer gid;
     private String param;
 
-    @ManyToOne(targetEntity = JurisdictionUrlModel.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "uid", referencedColumnName = "id", insertable = false, updatable = false)
-    private JurisdictionUrlModel url;
+//    @ManyToOne(targetEntity = JurisdictionUrlModel.class, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "uid", referencedColumnName = "id", insertable = false, updatable = false)
+//    private JurisdictionUrlModel url;
 }

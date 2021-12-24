@@ -2,6 +2,8 @@ package club.p6e.germ.jurisdiction.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,5 +24,6 @@ public class JurisdictionUserRelationUrlGroupModel implements Serializable {
 
     @ManyToOne(targetEntity = JurisdictionUrlGroupModel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "gid", referencedColumnName = "id", insertable = false, updatable = false)
-    private JurisdictionUrlGroupModel url;
+    @Where(clause = "isDelete = 0")
+    private JurisdictionUrlGroupModel urlGroup;
 }

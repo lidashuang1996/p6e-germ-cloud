@@ -20,7 +20,7 @@ public class JurisdictionUrlGroupModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String weight;
+    private Integer weight;
     private String name;
     private String describe;
     private LocalDateTime createDate;
