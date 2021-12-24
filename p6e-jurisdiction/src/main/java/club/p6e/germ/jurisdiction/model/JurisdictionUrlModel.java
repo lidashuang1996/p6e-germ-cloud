@@ -1,18 +1,21 @@
 package club.p6e.germ.jurisdiction.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author lidashuang
  * @version 1.0
  */
 @Data
+@Entity(name = "p6e_jurisdiction_url")
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
-public class JurisdictionUrlDb extends JurisdictionBaseDb implements Serializable {
+public class JurisdictionUrlModel implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String url;
     private String baseUrl;
@@ -20,7 +23,8 @@ public class JurisdictionUrlDb extends JurisdictionBaseDb implements Serializabl
     private String config;
     private String name;
     private String describe;
-    private String createDate;
-    private String updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private String operate;
+    private Integer isDelete;
 }

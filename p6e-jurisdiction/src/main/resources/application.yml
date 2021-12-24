@@ -24,3 +24,8 @@ spring:
   # 名称配置
   application:
     name: P6E_GERM_MESSAGE
+  datasource:
+    url: jdbc:mysql://119.23.25.159:3306/p6e?autoReconnect=true&useSSL=false&characterEncoding=UTF-8
+    username: root
+    password: Root1234!@#$
+    driver-class-name: com.mysql.cj.jdbc.Driver
