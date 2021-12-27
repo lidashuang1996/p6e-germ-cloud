@@ -32,4 +32,4 @@ hs_err_pid*
 
 */application.yml
 
-*provate.yml
+*/*-private.yml
