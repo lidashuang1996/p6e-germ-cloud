@@ -16,6 +16,7 @@ public interface DataService {
     /**
      * 根据路径获取对应的 URL 权限对象
      * @param path 路径
+     * @param method 方法
      * @return URL 权限对象
      */
     public JurisdictionConditionModel getPathJurisdiction(String path, String method);

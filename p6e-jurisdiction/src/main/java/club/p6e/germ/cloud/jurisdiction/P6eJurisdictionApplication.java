@@ -15,7 +15,4 @@ import java.lang.annotation.*;
 @EnableAutoConfiguration
 @Import({P6eJurisdictionAutoConfigurationImportSelector.class})
 public @interface P6eJurisdictionApplication {
-
-
-
 }
