@@ -1,0 +1,5 @@
+###
+GET http://localhost:20000/manage/jurisdiction/path/list
+
+###
+GET http://localhost:20000/manage/jurisdiction/path/group/list
