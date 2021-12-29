@@ -36,9 +36,9 @@ public class JurisdictionPathManageAggregate {
      * 搜索条件初始化
      */
     public JurisdictionPathManageAggregate() {
-        this.search = "";
         this.page = 1;
         this.size = 16;
+        this.search = null;
         this.execute();
     }
 

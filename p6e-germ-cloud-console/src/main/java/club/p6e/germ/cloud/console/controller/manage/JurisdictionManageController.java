@@ -29,7 +29,6 @@ public class JurisdictionManageController extends BaseController {
     public ApiResultModel postList(@RequestBody JurisdictionModel.Path.ParamVo param) {
         final JurisdictionModel.Path.ListResultDto result =
                 jurisdictionManageService.pathList(P6eCopyUtil.run(param, JurisdictionModel.Path.ParamDto.class));
-        System.out.println(result);
         return ApiResultModel.build(P6eCopyUtil.run(result, JurisdictionModel.Path.ListResultVo.class));
     }
 
