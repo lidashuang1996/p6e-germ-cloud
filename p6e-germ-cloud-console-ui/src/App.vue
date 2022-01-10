@@ -1,15 +1,19 @@
 <template>
-  <div>
-    <layout-main/>
+  <div v-if="view">
+    <router-view/>
   </div>
 </template>
 
 <script lang="ts">
-import LayoutMain from '@/layout/LayoutMain.vue';
+import Auth from '@/auth/main';
 import { Vue, Options } from 'vue-class-component';
-
-@Options({
-  components: { LayoutMain }
-})
-export default class App extends Vue {}
+@Options({})
+export default class App extends Vue {
+  private view = false;
+  public async mounted (): Promise<void> {
+    this.view = false;
+    await Auth.init();
+    this.view = true;
+  }
+}
 </script>

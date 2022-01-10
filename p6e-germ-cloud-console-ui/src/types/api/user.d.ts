@@ -1,5 +1,6 @@
 declare interface HttpManageUserListParam extends HttpBaseParam{
-  name?: string;
+  search?: string;
+  type?: string;
 }
 
 declare interface HttpManageUserListItemDataResult {

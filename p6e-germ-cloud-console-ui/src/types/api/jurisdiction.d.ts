@@ -1,5 +1,5 @@
 declare interface HttpManageJurisdictionPathListParam extends HttpBaseParam{
-  name?: string;
+  search?: string;
 }
 
 declare interface HttpManageJurisdictionPathListItemDataResult {
@@ -28,7 +28,7 @@ declare type HttpManageJurisdictionPathListResult = HttpBaseResult<HttpManageJur
 /** ---------------------------------- */
 
 declare interface HttpManageJurisdictionPathGroupListParam extends HttpBaseParam{
-  name?: string;
+  search?: string;
 }
 
 declare interface HttpManageJurisdictionPathGroupListItemDataResult {

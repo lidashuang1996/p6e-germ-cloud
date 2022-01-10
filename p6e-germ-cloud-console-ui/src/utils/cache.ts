@@ -1,70 +1,52 @@
-export interface AuthCacheDataType {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
+/**
+ * 缓存的接口
+ */
+export interface ICache {
+  /** 写入 */
+  setUserData(v: string): void;
+  /** 删除 */
+  delUserData(): void;
+  /** 读取 */
+  getUserData(): string | null;
+  /** 写入主题 */
+  setTheme(v: string): void;
+  /** 删除主题 */
+  delTheme(): void;
+  /** 获取主题 */
+  getTheme(): string | null;
 }
 
-/** 认证数据 */
-const AUTH_NAME = 'P6E_AUTH';
-/** 登录验证码缓存的名称 */
-const SIGN_IN_CODE_NAME = 'P6E_AUTH@SIGN_IN_CODE';
-
 /**
- * 设置登录里面获取验证码的缓存
- * @param num 缓存时间
+ * 采用 LocalStorage 对 Cache 的实现
  */
-export const setSignInCodeCache = (num: number): void => {
-  window.localStorage.setItem(SIGN_IN_CODE_NAME, JSON.stringify({ date: new Date().getTime(), num }));
-};
+class LocalStorageCache implements ICache {
+  private readonly USER_NAME = 'PEP_ZJK_USER';
+  private readonly THEME_NAME = 'PEP_ZJK_THEME';
 
-/**
- * 获取登录里面获取验证码的缓存
- */
-export const getSignInCodeCache = (): number => {
-  const data = window.localStorage.getItem(SIGN_IN_CODE_NAME);
-  if (data === null) {
-    return 0;
-  } else {
-    const o: { date: number; num: number } = JSON.parse(data);
-    const d = o.num - Math.floor((new Date().getTime() - o.date) / 1000);
-    return d <= 0 ? 0 : d;
+  public delUserData (): void {
+    window.localStorage.removeItem(this.USER_NAME);
   }
-};
 
-/**
- * 删除登录里面获取验证码的缓存
- */
-export const delSignInCodeCache = (): void => {
-  window.localStorage.removeItem(SIGN_IN_CODE_NAME);
-};
-
-export const setAuthData = (data: AuthCacheDataType): void => {
-  if (data === null || data === undefined) {
-    delAuthData();
-  } else {
-    window.localStorage.setItem(AUTH_NAME, JSON.stringify(data));
+  public getUserData (): string | null {
+    return window.localStorage.getItem(this.USER_NAME);
   }
-};
 
-export const getAuthData = (): AuthCacheDataType | null => {
-  const data = window.localStorage.getItem(AUTH_NAME);
-  if (data == null) {
-    return null;
-  } else {
-    return JSON.parse(data);
+  public setUserData (v: string): void {
+    window.localStorage.setItem(this.USER_NAME, v);
   }
-};
 
-export const delAuthData = (): void => {
-  window.localStorage.removeItem(AUTH_NAME);
-};
+  public delTheme (): void {
+    window.localStorage.removeItem(this.THEME_NAME);
+  }
 
-export default {
-  getAuthData,
-  setAuthData,
-  delAuthData,
-  getSignInCodeCache,
-  setSignInCodeCache,
-  delSignInCodeCache
-};
+  public getTheme (): string | null {
+    return window.localStorage.getItem(this.THEME_NAME);
+  }
+
+  public setTheme (v: string): void {
+    window.localStorage.setItem(this.THEME_NAME, v);
+  }
+}
+
+// LocalStorage 缓存的实现
+export default new LocalStorageCache();

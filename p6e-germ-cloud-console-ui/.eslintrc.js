@@ -27,7 +27,34 @@ module.exports = {
     HttpManageJurisdictionPathListParam: true,
     HttpManageJurisdictionPathListItemDataResult: true,
     HttpManageJurisdictionPathGroupListParam: true,
-    HttpManageJurisdictionPathGroupListItemDataResult: true
+    HttpManageJurisdictionPathGroupListItemDataResult: true,
+
+
+    HttpMessageGroupListParam: true,
+    HttpMessageGroupListItemDataResult: true,
+    HttpMessageGroupListDataResult: true,
+    HttpMessageGroupListResult: true,
+
+    HttpMessagePlatformListParam: true,
+    HttpMessagePlatformListItemDataResult: true,
+    HttpMessagePlatformListDataResult: true,
+    HttpMessagePlatformListResult: true,
+
+    HttpMessageTemplateListParam: true,
+    HttpMessageTemplateListItemDataResult: true,
+    HttpMessageTemplateListDataResult: true,
+    HttpMessageTemplateListResult: true,
+
+
+    HttpMessageLogListParam: true,
+    HttpMessageLogListItemDataResult: true,
+    HttpMessageLogListDataResult: true,
+    HttpMessageLogListResult: true,
+
+    HttpMessagePlatformDataResult: true,
+    HttpMessageTemplateDataResult: true
+
+
   },
   overrides: [
     {

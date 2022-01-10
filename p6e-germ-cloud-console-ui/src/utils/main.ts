@@ -1,25 +1,29 @@
-import * as __cache__ from './cache';
-import * as __event__ from './event';
-
-const cache = { ...__cache__ };
-const event = { ...__event__ };
+import cache from './cache';
 
 /**
- * 验证邮箱格式
+ * 导出 LOG 函数
  */
-export const isEmailFormat = (data: string): boolean => {
-  const reg = /^([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-  return reg.test(data);
+const log = (...data: never[]): void => {
+  console.log(data);
 };
 
 /**
- * 验证电话号码格式
+ * 读取 URL 里面的参数
  */
-export const isPhoneFormat = (data: string): boolean => {
-  const reg = /^1(3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])\d{8}$/;
-  return reg.test(data);
+const getUrlParam = (name: string): string | false => {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+    if (pair[0] === name) {
+      return pair[1];
+    }
+  }
+  return false;
 };
 
 export default {
-  cache, event, isEmailFormat, isPhoneFormat
+  log,
+  getUrlParam,
+  cache
 };

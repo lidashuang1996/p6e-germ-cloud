@@ -6,6 +6,10 @@ declare interface TableHeaderView {
   dataIndex?: string;
   fixed?: string;
   width?: number;
+  align?: string;
+  slots?: {
+    customRender: string;
+  }
 }
 
 declare interface TableView<T, W, R = undefined> {
@@ -22,5 +26,10 @@ declare interface TableView<T, W, R = undefined> {
   sortSelect?: string;
   extend?: R;
   items: W[];
+  locale?: {
+    filterConfirm?: string;
+    filterReset?: string;
+    emptyText?: string;
+  };
 }
 /** ------------------------ */

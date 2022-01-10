@@ -1,0 +1,12 @@
+# 端口配置
+server:
+  port: 17000
+
+p6e:
+  cloud:
+    jurisdiction:
+      data-source:
+        url: jdbc:mysql://119.23.25.159:3306/p6e?autoReconnect=true&useSSL=false&characterEncoding=UTF-8
+        username: root
+        password: Root1234!@#$
+        driver-class-name: com.mysql.cj.jdbc.Driver
