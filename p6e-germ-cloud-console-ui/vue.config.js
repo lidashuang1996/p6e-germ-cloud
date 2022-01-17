@@ -12,7 +12,7 @@ const config = {
   local: {
     debug: false,
     version: version(),
-    url: 'xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    url: 'http://127.0.0.1:20000'
   }
 };
 console.log(config);

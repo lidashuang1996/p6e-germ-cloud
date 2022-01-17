@@ -1,6 +1,6 @@
 package club.p6e.germ.cloud.console.application.service;
 
-import club.p6e.germ.cloud.console.controller.support.model.UserModel;
+import club.p6e.germ.cloud.console.controller.support.model.UserContext;
 
 /**
  * @author lidashuang
@@ -8,9 +8,9 @@ import club.p6e.germ.cloud.console.controller.support.model.UserModel;
  */
 public interface UserManageService {
 
-    public UserModel.ResultDto update(UserModel.ParamDto param);
-    public UserModel.ResultDto delete(UserModel.ParamDto param);
+    public UserContext.ResultDto update(UserContext.ParamDto param);
+    public UserContext.ResultDto delete(UserContext.ParamDto param);
 
-    public UserModel.ListResultDto list(UserModel.ParamDto param);
+    public UserContext.ListResultDto list(UserContext.ParamDto param);
 
 }

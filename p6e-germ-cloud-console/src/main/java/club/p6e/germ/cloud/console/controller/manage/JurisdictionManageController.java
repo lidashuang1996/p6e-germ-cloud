@@ -1,9 +1,9 @@
 package club.p6e.germ.cloud.console.controller.manage;
 
 import club.p6e.germ.cloud.console.application.service.JurisdictionManageService;
-import club.p6e.germ.cloud.console.controller.support.ApiResultModel;
+import club.p6e.germ.cloud.console.controller.support.ApiResultContext;
 import club.p6e.germ.cloud.console.controller.support.BaseController;
-import club.p6e.germ.cloud.console.controller.support.model.JurisdictionModel;
+import club.p6e.germ.cloud.console.controller.support.model.JurisdictionContext;
 import com.p6e.germ.common.utils.P6eCopyUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +21,27 @@ public class JurisdictionManageController extends BaseController {
     private JurisdictionManageService jurisdictionManageService;
 
     @GetMapping("/path/list")
-    public ApiResultModel getList(JurisdictionModel.Path.ParamVo param) {
+    public ApiResultContext getList(JurisdictionContext.Path.ParamVo param) {
         return postList(param);
     }
 
     @PostMapping("/path/list")
-    public ApiResultModel postList(@RequestBody JurisdictionModel.Path.ParamVo param) {
-        final JurisdictionModel.Path.ListResultDto result =
-                jurisdictionManageService.pathList(P6eCopyUtil.run(param, JurisdictionModel.Path.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, JurisdictionModel.Path.ListResultVo.class));
+    public ApiResultContext postList(@RequestBody JurisdictionContext.Path.ParamVo param) {
+        final JurisdictionContext.Path.ListResultDto result =
+                jurisdictionManageService.pathList(P6eCopyUtil.run(param, JurisdictionContext.Path.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, JurisdictionContext.Path.ListResultVo.class));
     }
 
     @GetMapping("/path/group/list")
-    public ApiResultModel getGroupList(JurisdictionModel.PathGroup.ParamVo param) {
+    public ApiResultContext getGroupList(JurisdictionContext.PathGroup.ParamVo param) {
         return postGroupList(param);
     }
 
     @PostMapping("/path/group/list")
-    public ApiResultModel postGroupList(@RequestBody JurisdictionModel.PathGroup.ParamVo param) {
-        final JurisdictionModel.PathGroup.ListResultDto result =
-                jurisdictionManageService.pathGroupList(P6eCopyUtil.run(param, JurisdictionModel.PathGroup.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, JurisdictionModel.PathGroup.ListResultVo.class));
+    public ApiResultContext postGroupList(@RequestBody JurisdictionContext.PathGroup.ParamVo param) {
+        final JurisdictionContext.PathGroup.ListResultDto result =
+                jurisdictionManageService.pathGroupList(P6eCopyUtil.run(param, JurisdictionContext.PathGroup.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, JurisdictionContext.PathGroup.ListResultVo.class));
     }
 
 }

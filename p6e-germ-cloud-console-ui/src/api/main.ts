@@ -1,5 +1,5 @@
 /** 导入支持对象 */
-import support  from './support';
+import support from './support';
 /** 导入消息翻译的模版 */
 // import message from './message';
 
@@ -11,6 +11,8 @@ import * as __test__ from './module/test';
 import * as __me__ from './module/me';
 import * as __user__ from './module/manage/user';
 import * as __jurisdiction__ from './module/manage/jurisdiction';
+
+import * as __dictionary__ from './module/dictionary';
 
 import * as __message__ from './module/message';
 
@@ -32,17 +34,19 @@ const me = { ...__me__ };
 
 const user = { ...__user__ };
 const jurisdiction = { ...__jurisdiction__ };
+const dictionary = { ...__dictionary__ };
 const manage = {
   user: user,
   jurisdiction: jurisdiction
 };
 const message = { ...__message__ };
 
+// eslint-disable-next-line
 const initToken = (token: string) => {
-  console.log('123');
+  support.initToken(token);
 };
 
 /** 导出所有的请求对象 */
 export default {
-  login, sign, auth, test, me, manage, message, initToken
+  login, sign, auth, test, me, manage, dictionary, message, initToken
 };

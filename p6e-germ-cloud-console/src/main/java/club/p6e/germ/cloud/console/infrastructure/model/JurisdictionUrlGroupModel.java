@@ -2,7 +2,6 @@ package club.p6e.germ.cloud.console.infrastructure.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -73,6 +73,8 @@ public class BaseController {
     /** 设备信息的头默认内容 */
     private static final String DEVICE_HEADER_DEFAULT_CONTENT = "PC";
 
+    protected static final String DEFAULT_LANGUAGE = "zh-cmn-Hans";
+
     /**
      * 获取基础的请求与的对象 ServletRequestAttributes
      * @return ServletRequestAttributes 返回的对象

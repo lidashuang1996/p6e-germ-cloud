@@ -90,12 +90,18 @@ let jStatus = false;
 /** 权限缓存 */
 let jCache: string[] = [];
 /** 权限方法 */
-const jurisdiction = async (): Promise<string[]> => {
+export const jurisdiction = async (): Promise<string[]> => {
   if (!jStatus) {
     console.log(getUser());
     jStatus = true;
     jCache = [
-      'Home', 'Dashboard'
+      'Home', 'Dashboard',
+      'JurisdictionPathGroupManage',
+      'JurisdictionPathManage',
+      'MessageGroup',
+      'MessagePlatform',
+      'MessageTemplate',
+      'MessageLog'
     ];
   }
   return Promise.resolve(jCache);
@@ -146,4 +152,4 @@ export const verification = async (name: string): Promise<string> => {
   return Promise.resolve(Config.ERROR_404_ROUTER_PAGE);
 };
 
-export default { init, verification };
+export default { init, jurisdiction, verification };

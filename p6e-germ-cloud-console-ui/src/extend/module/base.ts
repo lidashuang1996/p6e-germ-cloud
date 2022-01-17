@@ -10,6 +10,6 @@ export default class ExtendBase extends Vue {
   }
 
   protected async toWebsiteHomePage (): Promise<void> {
-    await this.$router.push({ name: Config.DEFAULT_HOME_ROUTER_PAGE });
+    window.location.href = '/';
   }
 }

@@ -1,8 +1,8 @@
 package club.p6e.germ.cloud.console.controller.manage;
 
 import club.p6e.germ.cloud.console.application.service.UserManageService;
-import club.p6e.germ.cloud.console.controller.support.ApiResultModel;
-import club.p6e.germ.cloud.console.controller.support.model.UserModel;
+import club.p6e.germ.cloud.console.controller.support.ApiResultContext;
+import club.p6e.germ.cloud.console.controller.support.model.UserContext;
 import club.p6e.germ.cloud.console.infrastructure.auth.AuthInfo;
 import club.p6e.germ.cloud.console.infrastructure.error.P6eParameterException;
 import com.p6e.germ.common.utils.P6eCopyUtil;
@@ -22,38 +22,38 @@ public class UserManageController {
     private UserManageService userManageService;
 
     @GetMapping("/list")
-    public ApiResultModel getList(UserModel.ParamVo param) {
+    public ApiResultContext getList(UserContext.ParamVo param) {
         return postList(param);
     }
 
     @PostMapping("/list")
-    public ApiResultModel postList(@RequestBody UserModel.ParamVo param) {
-        final UserModel.ListResultDto result =
-                userManageService.list(P6eCopyUtil.run(param, UserModel.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, UserModel.ListResultVo.class));
+    public ApiResultContext postList(@RequestBody UserContext.ParamVo param) {
+        final UserContext.ListResultDto result =
+                userManageService.list(P6eCopyUtil.run(param, UserContext.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, UserContext.ListResultVo.class));
     }
 
     @PutMapping("/{uid}")
-    public ApiResultModel putUser(AuthInfo info, @PathVariable Integer uid, @RequestBody UserModel.ParamVo param) {
+    public ApiResultContext putUser(AuthInfo info, @PathVariable Integer uid, @RequestBody UserContext.ParamVo param) {
         if (param == null || param.getStatus() == null) {
             throw new P6eParameterException(this.getClass()
-                    + " param <" + UserModel.ParamDto.class + "> is null.");
+                    + " param <" + UserContext.ParamDto.class + "> is null.");
         } else {
-            final UserModel.ResultDto result = userManageService.update(
-                    new UserModel.ParamDto()
+            final UserContext.ResultDto result = userManageService.update(
+                    new UserContext.ParamDto()
                             .setId(uid)
                             .setStatus(param.getStatus())
                             .setOperate(info.getOperate())
             );
-            return ApiResultModel.build(P6eCopyUtil.run(result, UserModel.ResultVo.class));
+            return ApiResultContext.build(P6eCopyUtil.run(result, UserContext.ResultVo.class));
         }
     }
 
     @DeleteMapping("/{uid}")
-    public ApiResultModel deleteUser(AuthInfo info, @PathVariable Integer uid) {
-        final UserModel.ResultDto result = userManageService.delete(
-                new UserModel.ParamDto().setId(uid).setOperate(info.getOperate()));
-        return ApiResultModel.build(P6eCopyUtil.run(result, UserModel.ResultVo.class));
+    public ApiResultContext deleteUser(AuthInfo info, @PathVariable Integer uid) {
+        final UserContext.ResultDto result = userManageService.delete(
+                new UserContext.ParamDto().setId(uid).setOperate(info.getOperate()));
+        return ApiResultContext.build(P6eCopyUtil.run(result, UserContext.ResultVo.class));
     }
 
 }

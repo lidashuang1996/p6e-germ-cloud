@@ -1,7 +1,7 @@
 package club.p6e.germ.cloud.console.application.service.impl;
 
 import club.p6e.germ.cloud.console.application.service.UserManageService;
-import club.p6e.germ.cloud.console.controller.support.model.UserModel;
+import club.p6e.germ.cloud.console.controller.support.model.UserContext;
 import club.p6e.germ.cloud.console.domain.aggregate.manage.user.UserManageAggregate;
 import club.p6e.germ.cloud.console.domain.entity.manage.user.UserManageEntity;
 import com.p6e.germ.common.utils.P6eCopyUtil;
@@ -18,19 +18,19 @@ import java.util.List;
 public class UserManageServiceImpl implements UserManageService {
 
     @Override
-    public UserModel.ResultDto update(UserModel.ParamDto param) {
+    public UserContext.ResultDto update(UserContext.ParamDto param) {
         return P6eCopyUtil.run(new UserManageEntity(param.getId()).update(
                 P6eCopyUtil.run(param, club.p6e.germ.cloud.console.infrastructure.model.UserModel.class)
-        ).getModel(), UserModel.ResultDto.class);
+        ).getModel(), UserContext.ResultDto.class);
     }
 
     @Override
-    public UserModel.ResultDto delete(UserModel.ParamDto param) {
-        return P6eCopyUtil.run(new UserManageEntity(param.getId()).delete().getModel(), UserModel.ResultDto.class);
+    public UserContext.ResultDto delete(UserContext.ParamDto param) {
+        return P6eCopyUtil.run(new UserManageEntity(param.getId()).delete().getModel(), UserContext.ResultDto.class);
     }
 
     @Override
-    public UserModel.ListResultDto list(UserModel.ParamDto param) {
+    public UserContext.ListResultDto list(UserContext.ParamDto param) {
         final UserManageAggregate aggregate;
         if (param == null) {
             aggregate = new UserManageAggregate();
@@ -42,10 +42,10 @@ public class UserManageServiceImpl implements UserManageService {
                     param.getSearch()
             );
         }
-        final List<UserModel.Item> rList = new ArrayList<>();
-        final UserModel.ListResultDto result = new UserModel.ListResultDto();
+        final List<UserContext.Item> rList = new ArrayList<>();
+        final UserContext.ListResultDto result = new UserContext.ListResultDto();
         for (final club.p6e.germ.cloud.console.infrastructure.model.UserModel user : aggregate.getList()) {
-            rList.add(P6eCopyUtil.run(user, UserModel.Item.class)
+            rList.add(P6eCopyUtil.run(user, UserContext.Item.class)
                     .setQq(user.getAuth().getQq() == null ? "0" : "1")
                     .setWechat(user.getAuth().getWechat() == null ? "0" : "1")
                     .setPhone(user.getAuth().getPhone())

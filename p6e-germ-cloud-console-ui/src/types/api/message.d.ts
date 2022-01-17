@@ -108,6 +108,7 @@ declare type HttpMessageTemplateResult = HttpBaseResult<HttpMessageTemplateDataR
 /** ---------------------------------- */
 declare interface HttpMessageTemplateListParam extends HttpBaseParam {
   search?: string;
+  type?: string;
 }
 
 declare interface HttpMessageTemplateListItemDataResult {

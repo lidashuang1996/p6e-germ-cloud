@@ -9,94 +9,34 @@
          @mouseleave="mouseleave"
          class="layout-sidebar-button">
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" style="background-color: rgb(30,34,44);">
-        <div class="layout-sidebar-button-subtitle">
-          首页
-        </div>
-        <a-menu-item key="1" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>首页</span>
-        </a-menu-item>
-        <div class="layout-sidebar-button-subtitle">
-          直播房间
-        </div>
-        <a-menu-item key="2" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <desktop-outlined />
-          <span>斗鱼</span>
-        </a-menu-item>
-        <a-menu-item key="3" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <desktop-outlined />
-          <span>虎牙</span>
-        </a-menu-item>
-        <a-menu-item key="4" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <desktop-outlined />
-          <span>礼物设置</span>
-        </a-menu-item>
-        <a-menu-item key="5" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <desktop-outlined />
-          <span>房间设置</span>
-        </a-menu-item>
-        <div class="layout-sidebar-button-subtitle">
-          商品与支付
-        </div>
-        <a-menu-item key="6" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>商品设置</span>
-        </a-menu-item>
-        <a-menu-item key="7" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>订单管理</span>
-        </a-menu-item>
-        <div class="layout-sidebar-button-subtitle">
-          基础管理
-        </div>
-        <a-menu-item key="8" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>用户管理</span>
-        </a-menu-item>
-        <a-menu-item key="82" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>字典管理</span>
-        </a-menu-item>
-        <a-menu-item key="9" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <pie-chart-outlined />
-          <span>Oauth2管理</span>
-        </a-menu-item>
-        <a-sub-menu key="10" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <template #title>
-          <span>
-            <team-outlined />
-            <span>权限管理</span>
-          </span>
+        <template v-for="item in menu" :key="item.name">
+          <div class="layout-sidebar-button-subtitle" v-if="item.type === 'title'">{{ item.title }}</div>
+          <template v-if="item.type === 'button'">
+            <a-menu-item v-bind:key="item.name"
+                         @click.stop="onRouter(item)"
+                         v-if="item.children === undefined"
+                         class="layout-sidebar-button-item">
+              <pie-chart-outlined />
+              <span>{{ item.title }}</span>
+            </a-menu-item>
+            <a-sub-menu v-else
+                        v-bind:key="item.name"
+                        class="layout-sidebar-button-item">
+              <template #title>
+                <span>
+                  <team-outlined />
+                  <span>{{ item.title }}</span>
+                </span>
+              </template>
+              <a-menu-item v-bind:key="it.name"
+                           @click.stop="onRouter(it)"
+                           v-for="it in item.children"
+                           class="layout-sidebar-button-item">
+                {{ it.title }}
+              </a-menu-item>
+            </a-sub-menu>
           </template>
-          <a-menu-item key="621" class="layout-sidebar-button-item">权限组</a-menu-item>
-          <a-menu-item key="023" class="layout-sidebar-button-item">路径配置</a-menu-item>
-        </a-sub-menu>
-        <div class="layout-sidebar-button-subtitle">
-          文件服务
-        </div>
-        <a-menu-item key="11" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <file-outlined />
-          <span>文件服务1</span>
-        </a-menu-item>
-        <a-menu-item key="12" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <file-outlined />
-          <span>文件服务2</span>
-        </a-menu-item>
-        <div class="layout-sidebar-button-subtitle">
-          消息中心
-        </div>
-        <a-menu-item key="13" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <file-outlined />
-          <span>短信设置</span>
-        </a-menu-item>
-        <a-menu-item key="14" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <file-outlined />
-          <span>邮件设置</span>
-        </a-menu-item>
-        <a-menu-item key="15" class="layout-sidebar-button-item" @click.stop="onRouter('123')">
-          <file-outlined />
-          <span>日志管理</span>
-        </a-menu-item>
+        </template>
       </a-menu>
     </div>
     <div v-else
@@ -160,6 +100,8 @@ import {
   TeamOutlined,
   FileOutlined
 } from '@ant-design/icons-vue';
+import { MenuType, MENU_CONFIG } from './main';
+import Auth from '@/auth/main';
 import { Vue, Options } from 'vue-class-component';
 import LayoutHeader from '@/layout/LayoutHeader.vue';
 @Options({
@@ -182,18 +124,39 @@ export default class LayoutSidebar extends Vue {
   /** 鼠标是否在菜单里面 */
   private collapsedMouseStatus = false;
   private selectedKeys = ['1'];
+  private menu: MenuType[] = [];
 
+  /** 钩子函数 */
+  public async mounted (): Promise<void> {
+    const jurisdictionList = await Auth.jurisdiction();
+    jurisdictionList.forEach(j => {
+      for (const m of MENU_CONFIG) {
+        if (j === m.jurisdiction) {
+          const o = Object.assign({}, m);
+          // o.children = undefined;
+          this.menu.push(o);
+        }
+      }
+    });
+    this.menu = MENU_CONFIG;
+    console.log(this.menu, MENU_CONFIG, jurisdictionList);
+  }
+
+  /** 鼠标移入移出事件 */
   private mouseenter (): void {
     this.collapsedMouseStatus = true;
   }
 
+  /** 鼠标移入移出事件 */
   private mouseleave (): void {
     this.collapsedMouseStatus = false;
   }
 
   /** 路由页面 */
-  private async onRouter (name: string): Promise<void> {
-    await this.$router.push({ name });
+  private async onRouter (menu: MenuType): Promise<void> {
+    if (menu.type === 'button' && menu.children === undefined) {
+      await this.$router.push({ name: menu.name });
+    }
   }
 }
 </script>

@@ -15,17 +15,25 @@ import Extend from '@/extend/main';
 import { Options, mixins } from 'vue-class-component';
 @Options({})
 export default class Error403 extends mixins(Extend.base) {
+  private is = false;
   private count = 8;
   public mounted (): void {
     const fun = () => {
-      this.count = this.count - 1;
-      if (this.count === 0) {
-        this.toWebsiteHomePage();
-      } else {
-        setTimeout(() => fun(), 1000);
+      if (this.is) {
+        this.count = this.count - 1;
+        if (this.count === 0) {
+          this.toWebsiteHomePage();
+        } else {
+          setTimeout(() => fun(), 1000);
+        }
       }
     };
+    this.is = true;
     setTimeout(() => fun(), 1000);
+  }
+
+  public destroyed (): void {
+    this.is = false;
   }
 }
 </script>

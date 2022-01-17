@@ -1,6 +1,6 @@
 package club.p6e.germ.cloud.console.application.service;
 
-import club.p6e.germ.cloud.console.controller.support.MessageModel;
+import club.p6e.germ.cloud.console.controller.support.MessageContext;
 
 /**
  * @author lidashuang
@@ -8,14 +8,14 @@ import club.p6e.germ.cloud.console.controller.support.MessageModel;
  */
 public interface MessageService {
 
-    public MessageModel.Log.ListResultDto logList(MessageModel.Log.ParamDto param);
+    public MessageContext.Log.ListResultDto logList(MessageContext.Log.ParamDto param);
 
-    public MessageModel.Platform.ResultDto platform(MessageModel.Platform.ParamDto param);
-    public MessageModel.Platform.ListResultDto platformList(MessageModel.Platform.ParamDto param);
+    public MessageContext.Platform.ResultDto platform(MessageContext.Platform.ParamDto param);
+    public MessageContext.Platform.ListResultDto platformList(MessageContext.Platform.ParamDto param);
 
-    public MessageModel.Template.ResultDto template(MessageModel.Template.ParamDto param);
-    public MessageModel.Template.ListResultDto templateList(MessageModel.Template.ParamDto param);
+    public MessageContext.Template.ResultDto template(MessageContext.Template.ParamDto param);
+    public MessageContext.Template.ListResultDto templateList(MessageContext.Template.ParamDto param);
 
 
-    public MessageModel.Group.ListResultDto groupList(MessageModel.Group.ParamDto param);
+    public MessageContext.Group.ListResultDto groupList(MessageContext.Group.ParamDto param);
 }

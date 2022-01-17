@@ -20,8 +20,8 @@ export interface ICache {
  * 采用 LocalStorage 对 Cache 的实现
  */
 class LocalStorageCache implements ICache {
-  private readonly USER_NAME = 'PEP_ZJK_USER';
-  private readonly THEME_NAME = 'PEP_ZJK_THEME';
+  private readonly USER_NAME = 'P6E_GERM_CLOUD_CONSOLE_USER';
+  private readonly THEME_NAME = 'P6E_GERM_CLOUD_CONSOLE_THEME';
 
   public delUserData (): void {
     window.localStorage.removeItem(this.USER_NAME);

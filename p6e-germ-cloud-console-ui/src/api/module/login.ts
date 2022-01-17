@@ -25,7 +25,9 @@ export const code = (param: HttpLoginCodeParam, is = true): Promise<HttpLoginCod
  */
 export const token = (param: HttpLoginTokenParam, is = true): Promise<HttpLoginTokenResult> => {
   // return Support.get<HttpLoginTokenResult>(is, URL + '/oauth/token/' + param.token);
-  console.log(is);
+  if (!is) {
+    console.log(is);
+  }
   return Promise.resolve({ code: 0, message: 'xxx', data: { userId: 1, userName: '123', userAccount: '123', userRole: '123', token: '123' } });
 };
 

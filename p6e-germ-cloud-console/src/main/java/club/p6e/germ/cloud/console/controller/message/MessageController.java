@@ -1,9 +1,9 @@
 package club.p6e.germ.cloud.console.controller.message;
 
 import club.p6e.germ.cloud.console.application.service.MessageService;
-import club.p6e.germ.cloud.console.controller.support.ApiResultModel;
+import club.p6e.germ.cloud.console.controller.support.ApiResultContext;
 import club.p6e.germ.cloud.console.controller.support.BaseController;
-import club.p6e.germ.cloud.console.controller.support.MessageModel;
+import club.p6e.germ.cloud.console.controller.support.MessageContext;
 import com.p6e.germ.common.utils.P6eCopyUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,67 +21,63 @@ public class MessageController extends BaseController {
     private MessageService messageService;
 
     @GetMapping("/log/list")
-    public ApiResultModel getLogList(MessageModel.Log.ParamVo param) {
+    public ApiResultContext getLogList(MessageContext.Log.ParamVo param) {
         return postLogList(param);
     }
 
     @PostMapping("/log/list")
-    public ApiResultModel postLogList(@RequestBody MessageModel.Log.ParamVo param) {
-        final MessageModel.Log.ListResultDto result =
-                messageService.logList(P6eCopyUtil.run(param, MessageModel.Log.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, MessageModel.Log.ListResultVo.class));
+    public ApiResultContext postLogList(@RequestBody MessageContext.Log.ParamVo param) {
+        final MessageContext.Log.ListResultDto result =
+                messageService.logList(P6eCopyUtil.run(param, MessageContext.Log.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, MessageContext.Log.ListResultVo.class));
     }
 
-
-
     @RequestMapping(value = "/platform/{id}", method = { RequestMethod.GET, RequestMethod.POST })
-    public ApiResultModel platform(@PathVariable Integer id) {
-        return ApiResultModel.build(P6eCopyUtil.run(messageService.platform(
-                new MessageModel.Platform.ParamDto().setId(id)), MessageModel.Platform.ResultVo.class));
+    public ApiResultContext platform(@PathVariable Integer id) {
+        return ApiResultContext.build(P6eCopyUtil.run(messageService.platform(
+                new MessageContext.Platform.ParamDto().setId(id)), MessageContext.Platform.ResultVo.class));
     }
 
     @GetMapping("/platform/list")
-    public ApiResultModel getPlatformList(MessageModel.Platform.ParamVo param) {
+    public ApiResultContext getPlatformList(MessageContext.Platform.ParamVo param) {
         return postPlatformList(param);
     }
 
     @PostMapping("/platform/list")
-    public ApiResultModel postPlatformList(@RequestBody MessageModel.Platform.ParamVo param) {
-        final MessageModel.Platform.ListResultDto result =
-                messageService.platformList(P6eCopyUtil.run(param, MessageModel.Platform.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, MessageModel.Platform.ListResultVo.class));
+    public ApiResultContext postPlatformList(@RequestBody MessageContext.Platform.ParamVo param) {
+        final MessageContext.Platform.ListResultDto result =
+                messageService.platformList(P6eCopyUtil.run(param, MessageContext.Platform.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, MessageContext.Platform.ListResultVo.class));
     }
 
-
-
     @RequestMapping(value = "/template/{id}", method = { RequestMethod.GET, RequestMethod.POST })
-    public ApiResultModel template(@PathVariable Integer id) {
-        return ApiResultModel.build(P6eCopyUtil.run(messageService.template(
-                new MessageModel.Template.ParamDto().setId(id)), MessageModel.Template.ResultVo.class));
+    public ApiResultContext template(@PathVariable Integer id) {
+        return ApiResultContext.build(P6eCopyUtil.run(messageService.template(
+                new MessageContext.Template.ParamDto().setId(id)), MessageContext.Template.ResultVo.class));
     }
 
     @GetMapping("/template/list")
-    public ApiResultModel getTemplateList(MessageModel.Template.ParamVo param) {
+    public ApiResultContext getTemplateList(MessageContext.Template.ParamVo param) {
         return postTemplateList(param);
     }
 
     @PostMapping("/template/list")
-    public ApiResultModel postTemplateList(@RequestBody MessageModel.Template.ParamVo param) {
-        final MessageModel.Template.ListResultDto result =
-                messageService.templateList(P6eCopyUtil.run(param, MessageModel.Template.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, MessageModel.Template.ListResultVo.class));
+    public ApiResultContext postTemplateList(@RequestBody MessageContext.Template.ParamVo param) {
+        final MessageContext.Template.ListResultDto result =
+                messageService.templateList(P6eCopyUtil.run(param, MessageContext.Template.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, MessageContext.Template.ListResultVo.class));
     }
 
 
     @GetMapping("/group/list")
-    public ApiResultModel getGroupList(MessageModel.Group.ParamVo param) {
+    public ApiResultContext getGroupList(MessageContext.Group.ParamVo param) {
         return postGroupList(param);
     }
 
     @PostMapping("/group/list")
-    public ApiResultModel postGroupList(@RequestBody MessageModel.Group.ParamVo param) {
-        final MessageModel.Group.ListResultDto result =
-                messageService.groupList(P6eCopyUtil.run(param, MessageModel.Group.ParamDto.class));
-        return ApiResultModel.build(P6eCopyUtil.run(result, MessageModel.Group.ListResultVo.class));
+    public ApiResultContext postGroupList(@RequestBody MessageContext.Group.ParamVo param) {
+        final MessageContext.Group.ListResultDto result =
+                messageService.groupList(P6eCopyUtil.run(param, MessageContext.Group.ParamDto.class));
+        return ApiResultContext.build(P6eCopyUtil.run(result, MessageContext.Group.ListResultVo.class));
     }
 }

@@ -10,14 +10,14 @@
         </div>
         <div class="layout-header-division"></div>
         <div class="layout-header-change" @click.stop="collapsedSwitch">
-          <UserOutlined />
+          <BlockOutlined />
         </div>
       </div>
       <div class="layout-header-right">
         <a-dropdown :placement="'bottomRight'">
           <div class="layout-header-user">
             <a-avatar style="background-color: #1890ff" :size="26">
-              <template #icon><UserOutlined /></template>
+              P6e
             </a-avatar>
             <span class="name">你的名称</span>
           </div>
@@ -41,10 +41,10 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { UserOutlined } from '@ant-design/icons-vue';
+import { BlockOutlined } from '@ant-design/icons-vue';
 @Options({
   components: {
-    UserOutlined
+    BlockOutlined
   }
 })
 export default class LayoutHeader extends Vue {
@@ -133,7 +133,7 @@ export default class LayoutHeader extends Vue {
       }
       span {
         color: #c7c7c7;
-        font-size: 16px;
+        font-size: 18px;
       }
     }
   }

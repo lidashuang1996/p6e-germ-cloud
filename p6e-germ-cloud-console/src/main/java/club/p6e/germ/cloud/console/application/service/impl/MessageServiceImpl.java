@@ -1,7 +1,7 @@
 package club.p6e.germ.cloud.console.application.service.impl;
 
 import club.p6e.germ.cloud.console.application.service.MessageService;
-import club.p6e.germ.cloud.console.controller.support.MessageModel;
+import club.p6e.germ.cloud.console.controller.support.MessageContext;
 import club.p6e.germ.cloud.console.domain.aggregate.message.MessageGroupAggregate;
 import club.p6e.germ.cloud.console.domain.aggregate.message.MessageLogAggregate;
 import club.p6e.germ.cloud.console.domain.aggregate.message.MessagePlatformAggregate;
@@ -24,18 +24,18 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
 
     @Override
-    public MessageModel.Log.ListResultDto logList(MessageModel.Log.ParamDto param) {
-        final MessageModel.Log.ListResultDto result = new MessageModel.Log.ListResultDto();
+    public MessageContext.Log.ListResultDto logList(MessageContext.Log.ParamDto param) {
+        final MessageContext.Log.ListResultDto result = new MessageContext.Log.ListResultDto();
         final MessageLogAggregate messageLogAggregate = new MessageLogAggregate();
         final List<MessageLogModel> messageLogModelList = messageLogAggregate.getList();
         result.setPage(messageLogAggregate.getPage());
         result.setSize(messageLogAggregate.getSize());
         result.setTotal(messageLogAggregate.getTotal());
-        final List<MessageModel.Log.Item> list = new ArrayList<>();
+        final List<MessageContext.Log.Item> list = new ArrayList<>();
         for (final MessageLogModel model : messageLogModelList) {
             final List<MessageLogModel> collectionModel = new MessageLogEntity(model.getMark()).getCollection();
-            final MessageModel.Log.Item item = P6eCopyUtil.run(model, MessageModel.Log.Item.class);
-            final List<MessageModel.Log.Item2> contents = P6eCopyUtil.runList(collectionModel, MessageModel.Log.Item2.class);
+            final MessageContext.Log.Item item = P6eCopyUtil.run(model, MessageContext.Log.Item.class);
+            final List<MessageContext.Log.Item2> contents = P6eCopyUtil.runList(collectionModel, MessageContext.Log.Item2.class);
             item.setDetails(contents);
             list.add(item);
         }
@@ -44,45 +44,45 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public MessageModel.Platform.ResultDto platform(MessageModel.Platform.ParamDto param) {
-        return P6eCopyUtil.run(new MessagePlatformEntity(param.getId()).getModel(), MessageModel.Platform.ResultDto.class);
+    public MessageContext.Platform.ResultDto platform(MessageContext.Platform.ParamDto param) {
+        return P6eCopyUtil.run(new MessagePlatformEntity(param.getId()).getModel(), MessageContext.Platform.ResultDto.class);
     }
 
     @Override
-    public MessageModel.Platform.ListResultDto platformList(MessageModel.Platform.ParamDto param) {
-        final MessageModel.Platform.ListResultDto result = new MessageModel.Platform.ListResultDto();
+    public MessageContext.Platform.ListResultDto platformList(MessageContext.Platform.ParamDto param) {
+        final MessageContext.Platform.ListResultDto result = new MessageContext.Platform.ListResultDto();
         final MessagePlatformAggregate messagePlatformAggregate = new MessagePlatformAggregate();
         result.setPage(messagePlatformAggregate.getPage());
         result.setSize(messagePlatformAggregate.getSize());
         result.setTotal(messagePlatformAggregate.getTotal());
-        result.setList(P6eCopyUtil.runList(messagePlatformAggregate.getList(), MessageModel.Platform.Item.class));
+        result.setList(P6eCopyUtil.runList(messagePlatformAggregate.getList(), MessageContext.Platform.Item.class));
         return result;
     }
 
     @Override
-    public MessageModel.Template.ResultDto template(MessageModel.Template.ParamDto param) {
-        return P6eCopyUtil.run(new MessageTemplateEntity(param.getId()).getModel(), MessageModel.Template.ResultDto.class);
+    public MessageContext.Template.ResultDto template(MessageContext.Template.ParamDto param) {
+        return P6eCopyUtil.run(new MessageTemplateEntity(param.getId()).getModel(), MessageContext.Template.ResultDto.class);
     }
 
     @Override
-    public MessageModel.Template.ListResultDto templateList(MessageModel.Template.ParamDto param) {
-        final MessageModel.Template.ListResultDto result = new MessageModel.Template.ListResultDto();
+    public MessageContext.Template.ListResultDto templateList(MessageContext.Template.ParamDto param) {
+        final MessageContext.Template.ListResultDto result = new MessageContext.Template.ListResultDto();
         final MessageTemplateAggregate messageTemplateAggregate = new MessageTemplateAggregate();
         result.setPage(messageTemplateAggregate.getPage());
         result.setSize(messageTemplateAggregate.getSize());
         result.setTotal(messageTemplateAggregate.getTotal());
-        result.setList(P6eCopyUtil.runList(messageTemplateAggregate.getList(), MessageModel.Template.Item.class));
+        result.setList(P6eCopyUtil.runList(messageTemplateAggregate.getList(), MessageContext.Template.Item.class));
         return result;
     }
 
     @Override
-    public MessageModel.Group.ListResultDto groupList(MessageModel.Group.ParamDto param) {
-        final MessageModel.Group.ListResultDto result = new MessageModel.Group.ListResultDto();
+    public MessageContext.Group.ListResultDto groupList(MessageContext.Group.ParamDto param) {
+        final MessageContext.Group.ListResultDto result = new MessageContext.Group.ListResultDto();
         final MessageGroupAggregate messageGroupAggregate = new MessageGroupAggregate();
         result.setPage(messageGroupAggregate.getPage());
         result.setSize(messageGroupAggregate.getSize());
         result.setTotal(messageGroupAggregate.getTotal());
-        result.setList(P6eCopyUtil.runList(messageGroupAggregate.getList(), MessageModel.Group.Item.class));
+        result.setList(P6eCopyUtil.runList(messageGroupAggregate.getList(), MessageContext.Group.Item.class));
         return result;
     }
 
