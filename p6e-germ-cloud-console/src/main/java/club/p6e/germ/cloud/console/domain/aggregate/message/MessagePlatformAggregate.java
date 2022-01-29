@@ -22,6 +22,7 @@ public class MessagePlatformAggregate {
     private final String search;
     /** 搜索的类型 */
     private final String type;
+    private final Integer status;
     /** 开始时间 */
     private final String startDateTime;
     /** 结束时间 */
@@ -40,16 +41,18 @@ public class MessagePlatformAggregate {
         this.size = 16;
         this.search = null;
         this.type = null;
+        this.status = null;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
     }
 
-    public MessagePlatformAggregate(int page, int size) {
-        this.page = page;
-        this.size = size;
-        this.search = null;
-        this.type = null;
+    public MessagePlatformAggregate(String search, String type, Integer status, Integer page, Integer size) {
+        this.page = page == null ? 1 : page;
+        this.size = size == null ? 16 : size;
+        this.search = search;
+        this.type = type;
+        this.status = status;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
@@ -62,6 +65,7 @@ public class MessagePlatformAggregate {
         this.endDateTime = endDateTime;
         this.page = page;
         this.size = size;
+        this.status = null;
         this.execute();
     }
 
@@ -72,13 +76,21 @@ public class MessagePlatformAggregate {
         final MessagePlatformRepository repository = P6eSpringUtil.getBean(MessagePlatformRepository.class);
         final Page<MessagePlatformModel> repositoryPage = repository.findAll(
                 (Specification<MessagePlatformModel>) (root, query, criteriaBuilder) -> {
-                    final Predicate predicate = criteriaBuilder.equal(root.get(MessagePlatformModel.IS_DELETE), 0);
-                    return search == null ? predicate : criteriaBuilder.and(
-                            predicate,
-                            criteriaBuilder.or(
-                                    criteriaBuilder.like(root.get(MessagePlatformModel.NAME), "%" + search + "%")
-                            )
-                    );
+                    final List<Predicate> predicates = new ArrayList<>();
+                    predicates.add(criteriaBuilder.equal(root.get(MessagePlatformModel.IS_DELETE), 0));
+                    if (type != null) {
+                        predicates.add(criteriaBuilder.equal(root.get(MessagePlatformModel.TYPE), type));
+                    }
+                    if (status != null) {
+                        predicates.add(criteriaBuilder.equal(root.get(MessagePlatformModel.STATUS), status));
+                    }
+                    if (search != null) {
+                        predicates.add(criteriaBuilder.or(
+                                criteriaBuilder.like(root.get(MessagePlatformModel.NAME), "%" + search + "%"),
+                                criteriaBuilder.like(root.get(MessagePlatformModel.DESCRIBE), "%" + search + "%")
+                        ));
+                    }
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
                 },
                 PageRequest.of(page - 1, size, Sort.by(Sort.Order.asc(MessagePlatformModel.ID)))
         );

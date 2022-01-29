@@ -16,8 +16,6 @@ public class MessageLogAggregate {
 
     /** 搜索的内容 */
     private final String search;
-    /** 搜索的类型 */
-    private final String type;
     /** 开始时间 */
     private final String startDateTime;
     /** 结束时间 */
@@ -35,17 +33,15 @@ public class MessageLogAggregate {
         this.page = 1;
         this.size = 16;
         this.search = null;
-        this.type = null;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
     }
 
-    public MessageLogAggregate(int page, int size) {
-        this.page = page;
-        this.size = size;
-        this.search = null;
-        this.type = null;
+    public MessageLogAggregate(String search, Integer page, Integer size) {
+        this.page = page == null ? 1 : page;
+        this.size = size == null ? 16 : size;
+        this.search = search;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
@@ -53,7 +49,6 @@ public class MessageLogAggregate {
 
     public MessageLogAggregate(String search, String type, String startDateTime, String endDateTime, int page, int size) {
         this.search = search;
-        this.type = type;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.page = page;
@@ -65,9 +60,10 @@ public class MessageLogAggregate {
      * 执行搜索操作
      */
     private void execute () {
+        final String search = this.search == null ? "" : this.search;
         final MessageLogRepository repository = P6eSpringUtil.getBean(MessageLogRepository.class);
-        final long repositoryCount = repository.countGroupByMarkAndPidAndTidAndSource();
-        final List<MessageLogModel> repositoryContent = repository.selectGroupByMarkAndPidAndTidAndSource(
+        final long repositoryCount = repository.countGroupByMarkAndPidAndTidAndSource(("%" + search + "%"));
+        final List<MessageLogModel> repositoryContent = repository.selectGroupByMarkAndPidAndTidAndSource(("%" + search + "%"),
                 PageRequest.of(page - 1, size, Sort.by(Sort.Order.desc(MessageLogModel.MARK))));
         this.total = repositoryCount;
         this.list = new ArrayList<>(repositoryContent);
@@ -79,10 +75,6 @@ public class MessageLogAggregate {
      */
     public String getSearch() {
         return search;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getStartDateTime() {

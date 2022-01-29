@@ -98,7 +98,7 @@ export const jurisdiction = async (): Promise<string[]> => {
       'Home', 'Dashboard',
       'JurisdictionPathGroupManage',
       'JurisdictionPathManage',
-      'MessageGroup',
+      'MessagePlatformGroup',
       'MessagePlatform',
       'MessageTemplate',
       'MessageLog'

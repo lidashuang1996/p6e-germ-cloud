@@ -26,7 +26,6 @@ public class MessageLogEntity {
         this.init(mark);
     }
 
-
     private void init(String mark) {
         final MessageLogRepository repository = P6eSpringUtil.getBean(MessageLogRepository.class);
         final Page<MessageLogModel> repositoryPage = repository.findAll(

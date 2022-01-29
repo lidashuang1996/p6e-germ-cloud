@@ -46,9 +46,9 @@ const AUTH_ROUTES: Array<RouteRecordRaw> = [
         component: () => import('../views/home/message/MessageLog.vue')
       },
       {
-        path: '/message/group',
-        name: 'MessageGroup',
-        component: () => import('../views/home/message/MessageGroup.vue')
+        path: '/message/platform/group',
+        name: 'MessagePlatformGroup',
+        component: () => import('../views/home/message/MessagePlatformGroup.vue')
       },
       {
         path: '/message/platform',

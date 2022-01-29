@@ -23,12 +23,12 @@ public class DictionaryController extends BaseController {
     private DictionaryService dictionaryService;
 
     @GetMapping(value = "")
-    public ApiResultContext def1(DictionaryContext.ParamVo param) {
-        return ApiResultContext.build(param);
+    public ApiResultContext getDefault(DictionaryContext.ParamVo param) {
+        return postDefault(param);
     }
 
     @PostMapping(value = "")
-    public ApiResultContext def2(@RequestBody DictionaryContext.ParamVo param) {
+    public ApiResultContext postDefault(@RequestBody DictionaryContext.ParamVo param) {
         if (param == null || (param.getType() == null && param.getTypes() == null)) {
             return ApiResultContext.build(ErrorModel.PARAMETER_EXCEPTION);
         } else {
@@ -56,13 +56,23 @@ public class DictionaryController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
-    public ApiResultContext def3(DictionaryContext.ParamVo param) {
-        return list(param);
+    @GetMapping(value = "/")
+    public ApiResultContext getListDefault(DictionaryContext.ParamVo param) {
+        return postListData(param);
     }
 
-    @RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
-    public ApiResultContext list(DictionaryContext.ParamVo param) {
+    @PostMapping(value = "/")
+    public ApiResultContext postListDefault(@RequestBody DictionaryContext.ParamVo param) {
+        return postListData(param);
+    }
+
+    @GetMapping(value = "/list")
+    public ApiResultContext getListData(DictionaryContext.ParamVo param) {
+        return postListData(param);
+    }
+
+    @PostMapping(value = "/list")
+    public ApiResultContext postListData(@RequestBody DictionaryContext.ParamVo param) {
         return ApiResultContext.build();
     }
 

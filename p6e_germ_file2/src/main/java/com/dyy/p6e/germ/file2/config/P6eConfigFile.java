@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class P6eConfigFile implements Serializable {
     /** 基础的文件路径 */
-    private String baseFilePath = "";
+    private String baseFilePath = "/Users/admin/Documents";
 
     /** 核心上下文 */
     private Manage context = new Manage();
@@ -70,7 +70,7 @@ public class P6eConfigFile implements Serializable {
                 new Open("ico", "image/x-icon"),
         };
         /** 允许下载的文件后缀 */
-        private String[] suffixes = new String[] { "jpg", "png", "gif", "jpeg", "ico" };
+        private String[] suffixes = new String[] { "jpg", "png", "gif", "jpeg", "ico", "rpm", "pdf" };
 
         public Manage getAuth() {
             return auth;

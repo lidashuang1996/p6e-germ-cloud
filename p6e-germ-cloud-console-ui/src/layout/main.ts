@@ -202,21 +202,21 @@ export const MENU_CONFIG: MenuType[] = [
   {
     type: 'button',
     ico: 'PieChartOutlined',
-    title: '消息组',
-    name: 'MessageGroup',
-    jurisdiction: 'MessageGroup'
-  },
-  {
-    type: 'button',
-    ico: 'PieChartOutlined',
-    title: '平台',
+    title: '平台管理',
     name: 'MessagePlatform',
     jurisdiction: 'MessagePlatform'
   },
   {
     type: 'button',
     ico: 'PieChartOutlined',
-    title: '模版',
+    title: '平台组管理',
+    name: 'MessagePlatformGroup',
+    jurisdiction: 'MessageGroup'
+  },
+  {
+    type: 'button',
+    ico: 'PieChartOutlined',
+    title: '模版管理',
     name: 'MessageTemplate',
     jurisdiction: 'MessageTemplate'
   },

@@ -1,7 +1,7 @@
 package club.p6e.germ.cloud.console.domain.aggregate.message;
 
-import club.p6e.germ.cloud.console.infrastructure.model.MessageTemplateModel;
-import club.p6e.germ.cloud.console.infrastructure.repository.MessageTemplateRepository;
+import club.p6e.germ.cloud.console.infrastructure.model.MessagePlatformGroupModel;
+import club.p6e.germ.cloud.console.infrastructure.repository.MessagePlatformGroupRepository;
 import com.p6e.germ.common.utils.P6eSpringUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,12 +16,14 @@ import java.util.List;
  * @author lidashuang
  * @version 1.0
  */
-public class MessageTemplateAggregate {
+public class MessagePlatformGroupAggregate {
+
 
     /** 搜索的内容 */
     private final String search;
     /** 搜索的类型 */
     private final String type;
+    private final Integer status;
     /** 开始时间 */
     private final String startDateTime;
     /** 结束时间 */
@@ -33,31 +35,34 @@ public class MessageTemplateAggregate {
 
     /** 查询结果 */
     private long total = 0;
-    private List<MessageTemplateModel> list = new ArrayList<>();
+    private List<MessagePlatformGroupModel> list = new ArrayList<>();
 
-    public MessageTemplateAggregate() {
+    public MessagePlatformGroupAggregate() {
         this.page = 1;
         this.size = 16;
         this.search = null;
         this.type = null;
+        this.status = null;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
     }
 
-    public MessageTemplateAggregate(String search, String type, Integer page, Integer size) {
+    public MessagePlatformGroupAggregate(String search, String type, Integer status, Integer page, Integer size) {
         this.page = page == null ? 1 : page;
         this.size = size == null ? 16 : size;
         this.search = search;
         this.type = type;
+        this.status = status;
         this.startDateTime = null;
         this.endDateTime = null;
         this.execute();
     }
 
-    public MessageTemplateAggregate(String search, String type, String startDateTime, String endDateTime, int page, int size) {
+    public MessagePlatformGroupAggregate(String search, String type, String startDateTime, String endDateTime, int page, int size) {
         this.search = search;
         this.type = type;
+        this.status = null;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.page = page;
@@ -69,23 +74,26 @@ public class MessageTemplateAggregate {
      * 执行搜索操作
      */
     private void execute () {
-        final MessageTemplateRepository repository = P6eSpringUtil.getBean(MessageTemplateRepository.class);
-        final Page<MessageTemplateModel> repositoryPage = repository.findAll(
-                (Specification<MessageTemplateModel>) (root, query, criteriaBuilder) -> {
+        final MessagePlatformGroupRepository repository = P6eSpringUtil.getBean(MessagePlatformGroupRepository.class);
+        final Page<MessagePlatformGroupModel> repositoryPage = repository.findAll(
+                (Specification<MessagePlatformGroupModel>) (root, query, criteriaBuilder) -> {
                     final List<Predicate> predicates = new ArrayList<>();
-                    predicates.add(criteriaBuilder.equal(root.get(MessageTemplateModel.IS_DELETE), 0));
+                    predicates.add(criteriaBuilder.equal(root.get(MessagePlatformGroupModel.IS_DELETE), 0));
                     if (type != null) {
-                        predicates.add(criteriaBuilder.equal(root.get(MessageTemplateModel.TYPE), type));
+                        predicates.add(criteriaBuilder.equal(root.get(MessagePlatformGroupModel.TYPE), type));
+                    }
+                    if (status != null) {
+                        predicates.add(criteriaBuilder.equal(root.get(MessagePlatformGroupModel.STATUS), status));
                     }
                     if (search != null) {
                         predicates.add(criteriaBuilder.or(
-                                criteriaBuilder.like(root.get(MessageTemplateModel.NAME), "%" + search + "%"),
-                                criteriaBuilder.like(root.get(MessageTemplateModel.DESCRIBE), "%" + search + "%")
+                                criteriaBuilder.like(root.get(MessagePlatformGroupModel.NAME), "%" + search + "%"),
+                                criteriaBuilder.like(root.get(MessagePlatformGroupModel.DESCRIBE), "%" + search + "%")
                         ));
                     }
                     return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
                 },
-                PageRequest.of(page - 1, size, Sort.by(Sort.Order.asc(MessageTemplateModel.ID)))
+                PageRequest.of(page - 1, size, Sort.by(Sort.Order.asc(MessagePlatformGroupModel.ID)))
         );
         this.total = repositoryPage.getTotalElements();
         this.list = new ArrayList<>(repositoryPage.getContent());
@@ -123,7 +131,8 @@ public class MessageTemplateAggregate {
         return total;
     }
 
-    public List<MessageTemplateModel> getList() {
+    public List<MessagePlatformGroupModel> getList() {
         return list;
     }
+
 }

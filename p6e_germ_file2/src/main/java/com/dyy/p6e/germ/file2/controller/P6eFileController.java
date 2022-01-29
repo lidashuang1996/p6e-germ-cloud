@@ -47,6 +47,7 @@ public class P6eFileController extends P6eBaseController {
      */
     @GetMapping("/download/**")
     public Mono<Void> download(final ServerHttpRequest request, final ServerHttpResponse response) {
+        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         return resource(request, response, DOWNLOAD_TYPE);
     }
 
@@ -63,12 +64,14 @@ public class P6eFileController extends P6eBaseController {
         try {
             // 读取类型数据
             final String mType = type == null ? null : type.toUpperCase();
+            System.out.println(mType);
             final String baseFilePath = p6eConfig.getFile().getBaseFilePath();
             final P6eConfigFile.Download downloadConfig = p6eConfig.getFile().getDownload();
             final String[] downloadSuffixes = downloadConfig.getSuffixes();
             final P6eConfigFile.Download.Open[] openSuffixes = downloadConfig.getOpen();
             // 读取文件路径
             final String filePath = P6eFileUtil.filePathFormat(request.getPath().value(), downloadSuffixes);
+            System.out.println(filePath);
             if (filePath == null) {
                 response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                 return response.writeWith(Mono.just(
@@ -98,7 +101,11 @@ public class P6eFileController extends P6eBaseController {
                                             P6eResultConfig.ERROR_JURISDICTION_NO_EXISTENCE).toBytes()));
                                 default:
                                     // 删除路径的固定前缀
-                                    s = s.substring(9);
+                                    System.out.println("1             " + s);
+//                                    s = s.substring(9);
+                                    s = s.replaceAll("download/", "");
+                                    System.out.println("2             " + s);
+
                                     try {
                                         P6eConfigFile.Download.Open open = null;
                                         for (P6eConfigFile.Download.Open openSuffix : openSuffixes) {
@@ -107,13 +114,18 @@ public class P6eFileController extends P6eBaseController {
                                                 break;
                                             }
                                         }
-                                        if (DOWNLOAD_TYPE.equals(mType) || open == null) {
-                                            response.getHeaders().setContentType(MediaType.valueOf("application/force-download"));
-                                            response.getHeaders().add("Content-Disposition",
-                                                    "attachment;fileName=" + P6eFileUtil.getFileName(s));
-                                        } else {
-                                            response.getHeaders().setContentType(MediaType.valueOf(open.getType()));
-                                        }
+//                                        if (DOWNLOAD_TYPE.equals(mType) || open == null) {
+//                                            response.getHeaders().setContentType(MediaType.valueOf("multipart/form-data"));
+//                                            response.getHeaders().add("Content-Disposition",
+//                                                    "attachment;fileName=" + P6eFileUtil.getFileName(s));
+//                                        } else {
+//                                            response.getHeaders().setContentType(MediaType.valueOf(open.getType()));
+//                                        }
+
+                                        response.getHeaders().setContentType(MediaType.valueOf("multipart/form-data"));
+                                        response.getHeaders().add("Content-Disposition",
+                                                "attachment;fileName=" + P6eFileUtil.getFileName(s));
+                                        System.out.println("getContentType -->> " + response.getHeaders().getContentType());
                                         return Mono.just(dataBuffer);
                                     } finally {
                                         // 写入下载数据

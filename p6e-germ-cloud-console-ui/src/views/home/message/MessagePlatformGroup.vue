@@ -1,7 +1,7 @@
 <template>
-  <layout-container title="消息中心 / 平台管理">
-    <div class="message-platform container">
-      <div class="message-platform-condition">
+  <layout-container title="消息中心 / 平台组管理">
+    <div class="message-group container">
+      <div class="message-group-condition">
         <a-input-group compact style="display: flex;">
           <a-select v-model:value="search.status" style="min-width: 100px;">
             <a-select-option :value="item.value" :key="index"
@@ -24,11 +24,10 @@
         </a-input-group>
         <a-button type="primary" style="margin-left: 12px;" @click.stop="onCreate">新增</a-button>
       </div>
-      <div class="message-platform-table" style="margin-top: 24px;">
+      <div class="message-group-table" style="margin-top: 24px;">
         <a-table class="table"
                  :scroll="{ x: 1500, y: 300 }"
                  :bordered="true"
-                 :pagination="false"
                  :loading="table.loading"
                  :columns="table.headers"
                  :data-source="table.items"
@@ -37,21 +36,21 @@
           <template #text="{ text }">
             <span class="table-text" :title="text">{{ text }}</span>
           </template>
-          <!-- 类型 -->
-          <template #type="{ text }">
-            <span class="table-text" :title="text">{{ translateDictionaryData('MESSAGE.PLATFORM.LIST.TYPE', text) }}</span>
-          </template>
           <!-- 状态 -->
           <template #status="{ text }">
-            <a-tag :color="text === 1 ? 'green' : 'red'">{{ translateDictionaryData('MESSAGE.PLATFORM.LIST.STATUS', text) }}</a-tag>
+            <a-tag :color="text === 1 ? 'green' : 'red'">{{ translateDictionaryData('MESSAGE.GROUP.LIST.STATUS', text) }}</a-tag>
+          </template>
+          <!-- 类型 -->
+          <template #type="{ text }">
+            <span class="table-text" :title="text">{{ translateDictionaryData('MESSAGE.GROUP.LIST.TYPE', text) }}</span>
           </template>
           <!-- 限流 -->
           <template #limit="{ text }">
             <a-tag color="purple">{{ text }}</a-tag>
           </template>
-          <!-- 处理器 -->
-          <template #actuator="{ text }">
-            <a-tag color="blue">{{ translateDictionaryData('MESSAGE.PLATFORM.LIST.ACTUATOR', text) }}</a-tag>
+          <!-- 路由 -->
+          <template #route="{ text }">
+            <a-tag color="cyan">{{ text }}</a-tag>
           </template>
           <template #operation="{ record, index }">
             <span class="table-operation">
@@ -71,40 +70,32 @@
           </template>
         </a-table>
       </div>
-      <div class="message-platform-pagination">
-        <a-pagination show-quick-jumper
-                      :defaultPageSize="16"
-                      :total="table.total"
-                      v-model:current="table.page"
-                      @change="onPaginationChange"/>
-      </div>
     </div>
     <!-- 查看弹出层 -->
-    <message-platform-watch-dialog ref="refMessagePlatformWatchDialog" @refresh="getTableData"/>
+    <message-platform-group-watch-dialog ref="refMessagePlatformGroupWatchDialog" @refresh="getTableData"/>
     <!-- 修改弹出层 -->
-    <message-platform-update-dialog ref="refMessagePlatformUpdateDialog" @refresh="getTableData"/>
+    <message-platform-group-update-dialog ref="refMessagePlatformGroupUpdateDialog" @refresh="getTableData"/>
     <!-- 创建弹出层 -->
-    <message-platform-create-dialog ref="refMessagePlatformCreateDialog" @refresh="getTableData"/>
+    <message-platform-group-create-dialog ref="refMessagePlatformGroupCreateDialog" @refresh="getTableData"/>
   </layout-container>
 </template>
 
 <script lang="ts">
 import Api from '@/api/main';
+import { message } from 'ant-design-vue';
 import { Vue, Options } from 'vue-class-component';
 import CircularSpin from '@/components/spin/CircularSpin.vue';
-import MessagePlatformCreateDialog, { MessagePlatformCreateDialogVue } from '@/components/message/MessagePlatformCreateDialog.vue';
-import MessagePlatformWatchDialog, { MessagePlatformWatchDialogVue, MessagePlatformWatchDialogData } from '@/components/message/MessagePlatformWatchDialog.vue';
-import MessagePlatformUpdateDialog, { MessagePlatformUpdateDialogVue, MessagePlatformUpdateDialogData } from '@/components/message/MessagePlatformUpdateDialog.vue';
-import { message } from 'ant-design-vue';
+import MessagePlatformGroupUpdateDialog, { MessagePlatformGroupUpdateDialogVue } from '@/components/message/MessagePlatformGroupUpdateDialog.vue';
+import MessagePlatformGroupWatchDialog, { MessagePlatformGroupWatchDialogVue, MessagePlatformGroupWatchDialogData } from '@/components/message/MessagePlatformGroupWatchDialog.vue';
+import MessagePlatformGroupCreateDialog, { MessagePlatformGroupCreateDialogVue } from '@/components/message/MessagePlatformGroupCreateDialog.vue';
 
 @Options({
-  components: { CircularSpin, MessagePlatformUpdateDialog, MessagePlatformWatchDialog, MessagePlatformCreateDialog }
+  components: { MessagePlatformGroupUpdateDialog, MessagePlatformGroupCreateDialog, MessagePlatformGroupWatchDialog, CircularSpin }
 })
-export default class MessagePlatform extends Vue {
+export default class MessagePlatformGroup extends Vue {
   /** 搜索条件 */
-  private search: { type: string; typeCache: string; selectTypes: { key: string; value: string; }[]; status: string; selectStatuses: { key: string; value: string; }[]; content: string; } = {
+  private search: { type: string; selectTypes: { key: string; value: string; }[]; status: string; selectStatuses: { key: string; value: string; }[]; content: string; } = {
     type: '',
-    typeCache: '',
     selectTypes: [],
     status: '',
     selectStatuses: [],
@@ -119,7 +110,7 @@ export default class MessagePlatform extends Vue {
   };
 
   /** 表格数据 */
-  private table: TableView<HttpMessagePlatformListParam, HttpMessagePlatformListItemDataResult> = {
+  private table: TableView<HttpMessageGroupListParam, HttpMessageGroupListItemDataResult> = {
     mark: '', // 标记
     page: 1, // 页码
     size: 10, // 长度
@@ -129,13 +120,12 @@ export default class MessagePlatform extends Vue {
     param: {}, // 请求的参数
     headers: [ // 列表头部
       { title: 'ID', width: 70, dataIndex: 'id', key: 'id', fixed: 'left', slots: { customRender: 'text' } },
-      { title: '状态', dataIndex: 'status', key: 'status', width: 60, slots: { customRender: 'status' } },
-      { title: '权重', dataIndex: 'weight', key: 'weight', width: 60, slots: { customRender: 'text' } },
+      { title: '状态', key: 'status', dataIndex: 'status', width: 70, slots: { customRender: 'status' } },
       { title: '类型', key: 'type', dataIndex: 'type', width: 70, slots: { customRender: 'type' } },
-      { title: '名称', dataIndex: 'name', key: 'name', width: 200, slots: { customRender: 'text' } },
+      { title: '名称', dataIndex: 'name', key: 'name', width: 150, slots: { customRender: 'text' } },
       { title: '描述', dataIndex: 'describe', key: 'describe', slots: { customRender: 'text' } },
       { title: '限流配置', dataIndex: 'limit', key: 'limit', width: 180, slots: { customRender: 'limit' } },
-      { title: '执行器', dataIndex: 'actuator', key: 'actuator', width: 180, slots: { customRender: 'actuator' } },
+      { title: '路由配置', dataIndex: 'route', key: 'route', width: 180, slots: { customRender: 'route' } },
       { title: '创建时间', dataIndex: 'createDate', key: 'createDate', width: 180, slots: { customRender: 'text' } },
       { title: '更新时间', dataIndex: 'updateDate', key: 'updateDate', width: 180, slots: { customRender: 'text' } },
       { title: '操作人', dataIndex: 'operate', key: 'operate', width: 80, slots: { customRender: 'text' } },
@@ -157,7 +147,7 @@ export default class MessagePlatform extends Vue {
     // 初始化搜索下拉框的数据
     if (this.table.dictionary) {
       const l: { key: string; value: string; }[] = [];
-      const o = this.table.dictionary['MESSAGE.PLATFORM.LIST.SEARCH.TYPE'];
+      const o = this.table.dictionary['MESSAGE.GROUP.LIST.SEARCH.TYPE'];
       for (const key in o) {
         l.push({ key: o[key], value: key });
       }
@@ -165,7 +155,7 @@ export default class MessagePlatform extends Vue {
     }
     if (this.table.dictionary) {
       const l: { key: string; value: string; }[] = [];
-      const o = this.table.dictionary['MESSAGE.PLATFORM.LIST.SEARCH.STATUS'];
+      const o = this.table.dictionary['MESSAGE.GROUP.LIST.SEARCH.STATUS'];
       for (const key in o) {
         l.push({ key: o[key], value: key });
       }
@@ -190,34 +180,28 @@ export default class MessagePlatform extends Vue {
     await this.getTableData();
   }
 
-  /** 执行分页改变事件 */
-  private async onPaginationChange (page: number): Promise<void> {
-    this.table.page = page;
-    await this.getTableData();
-  }
-
   /** 执行打开创建的弹出层 */
   private onCreate (): void {
-    (this.$refs.refMessagePlatformCreateDialog as MessagePlatformCreateDialogVue).open();
+    (this.$refs.refMessagePlatformGroupCreateDialog as MessagePlatformGroupCreateDialogVue).open();
   }
 
   /** 执行打开查看的弹出层 */
-  private onWatch (data: MessagePlatformWatchDialogData): void {
-    (this.$refs.refMessagePlatformWatchDialog as MessagePlatformWatchDialogVue).open(data);
+  private onWatch (data: MessagePlatformGroupWatchDialogData): void {
+    (this.$refs.refMessagePlatformGroupWatchDialog as MessagePlatformGroupWatchDialogVue).open(data);
   }
 
   /** 执行打开修改的弹出层 */
-  private onUpdate (data: MessagePlatformUpdateDialogData): void {
-    (this.$refs.refMessagePlatformUpdateDialog as MessagePlatformUpdateDialogVue).open(data);
+  private onUpdate (data: MessagePlatformGroupWatchDialogData): void {
+    (this.$refs.refMessagePlatformGroupUpdateDialog as MessagePlatformGroupUpdateDialogVue).open(data);
   }
 
   /** 执行删除数据的操作 */
-  private async onDelete (data: HttpMessagePlatformListItemDataResult, index: number): Promise<void> {
+  private async onDelete (data: HttpMessageGroupListItemDataResult, index: number): Promise<void> {
     if (this.operation.delete.index >= 0) {
       message.info('请等待上一个操作执行完成');
     } else {
       this.operation.delete.index = index;
-      const res = await Api.message.platformDelete({ id: data.id });
+      const res = await Api.message.platformGroupDelete({ id: data.id });
       this.operation.delete.index = -1;
       if (res.code === 0) {
         message.success('操作成功');
@@ -230,14 +214,14 @@ export default class MessagePlatform extends Vue {
   private async getTableData (): Promise<void> {
     // 防止多次查询, 后返回的数据覆盖之前的数据，只显示最新的数据
     const mark = String(new Date().getTime());
-    const param: HttpMessagePlatformListParam = {
+    const param: HttpManageUserListParam = {
       ...this.table.param,
       page: this.table.page,
       size: this.table.size
     };
     this.table.mark = mark;
     this.table.loading = true;
-    const res = await Api.message.platformList(param);
+    const res = await Api.message.platformGroupList(param);
     this.table.loading = false;
     if (this.table.mark === mark && res.code === 0) {
       this.table.items = [];
@@ -254,11 +238,10 @@ export default class MessagePlatform extends Vue {
     this.table.dictionary = {
       ...await Api.dictionary.get({
         types: [
-          'MESSAGE.PLATFORM.LIST.SEARCH.TYPE',
-          'MESSAGE.PLATFORM.LIST.SEARCH.STATUS',
-          'MESSAGE.PLATFORM.LIST.TYPE',
-          'MESSAGE.PLATFORM.LIST.STATUS',
-          'MESSAGE.PLATFORM.LIST.ACTUATOR'
+          'MESSAGE.GROUP.LIST.TYPE',
+          'MESSAGE.GROUP.LIST.STATUS',
+          'MESSAGE.GROUP.LIST.SEARCH.TYPE',
+          'MESSAGE.GROUP.LIST.SEARCH.STATUS'
         ]
       })
     };
@@ -275,13 +258,13 @@ export default class MessagePlatform extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.message-platform {
-  .message-platform-condition {
+.message-group {
+  .message-group-condition {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .message-platform-table {
+  .message-group-table {
     .table-text {
       display: block;
       width: 100%;
@@ -299,12 +282,6 @@ export default class MessagePlatform extends Vue {
         padding: 0;
       }
     }
-  }
-  .message-platform-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px 0;
   }
 }
 </style>

@@ -3,10 +3,7 @@ package club.p6e.germ.cloud.console.infrastructure.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @Entity(name = "p6e_message_group")
-public class MessageGroupModel implements Serializable {
+public class MessagePlatformGroupModel implements Serializable {
     public static final String ID = "id";
     public static final String TYPE = "type";
     public static final String STATUS = "status";
@@ -33,10 +30,14 @@ public class MessageGroupModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String type;
+    @Column(name = "[status]")
     private Integer status;
+    @Column(name = "[limit]")
     private String limit;
     private String route;
+    @Column(name = "[name]")
     private String name;
+    @Column(name = "[describe]")
     private String describe;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;

@@ -57,16 +57,17 @@ public class P6eFileCoreContext {
      */
     public byte[] read(String filePath, DataBuffer dataBuffer, boolean isCache) {
         // 查询是否存在缓存数据
-        if (isCache) {
-            final byte[] bytes = p6eFileCoreCache.getCache(filePath);
-            if (bytes != null) {
-                dataBuffer.write(bytes);
-                LOGGER.info("[ " + filePath + " ] ==> read cache file success, file size ( " + bytes.length + " ).");
-                LOGGER.info("\r\n" + p6eFileCoreCache.info());
-                return bytes;
-            }
-        }
+//        if (isCache) {
+//            final byte[] bytes = p6eFileCoreCache.getCache(filePath);
+//            if (bytes != null) {
+//                dataBuffer.write(bytes);
+//                LOGGER.info("[ " + filePath + " ] ==> read cache file success, file size ( " + bytes.length + " ).");
+//                LOGGER.info("\r\n" + p6eFileCoreCache.info());
+//                return bytes;
+//            }
+//        }
         // 去文件中查找文件数据
+        System.out.println(filePath);
         final byte[] bytes = p6eFileCoreFlow.read(filePath, dataBuffer);
         LOGGER.info("[ " + filePath + " ] ==> read file success.");
         if (isCache && bytes != null) {

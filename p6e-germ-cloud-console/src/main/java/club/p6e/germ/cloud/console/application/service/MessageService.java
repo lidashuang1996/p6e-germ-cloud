@@ -10,12 +10,26 @@ public interface MessageService {
 
     public MessageContext.Log.ListResultDto logList(MessageContext.Log.ParamDto param);
 
-    public MessageContext.Platform.ResultDto platform(MessageContext.Platform.ParamDto param);
+
     public MessageContext.Platform.ListResultDto platformList(MessageContext.Platform.ParamDto param);
+    public MessageContext.Platform.ResultDto getPlatform(MessageContext.Platform.ParamDto param);
+    public MessageContext.Platform.ResultDto createPlatform(MessageContext.Platform.ParamDto param);
+    public MessageContext.Platform.ResultDto updatePlatform(MessageContext.Platform.ParamDto param);
+    public MessageContext.Platform.ResultDto deletePlatform(MessageContext.Platform.ParamDto param);
 
-    public MessageContext.Template.ResultDto template(MessageContext.Template.ParamDto param);
+    public MessageContext.PlatformGroup.ListResultDto platformGroupList(MessageContext.PlatformGroup.ParamDto param);
+    public MessageContext.PlatformGroup.ResultDto getPlatformGroup(MessageContext.PlatformGroup.ParamDto param);
+    public MessageContext.PlatformGroup.ResultDto createPlatformGroup(MessageContext.PlatformGroup.ParamDto param);
+    public MessageContext.PlatformGroup.ResultDto updatePlatformGroup(MessageContext.PlatformGroup.ParamDto param);
+    public MessageContext.PlatformGroup.ResultDto deletePlatformGroup(MessageContext.PlatformGroup.ParamDto param);
+
+
     public MessageContext.Template.ListResultDto templateList(MessageContext.Template.ParamDto param);
+    public MessageContext.Template.ResultDto getTemplate(MessageContext.Template.ParamDto param);
+    public MessageContext.Template.ResultDto createTemplate(MessageContext.Template.ParamDto param);
+    public MessageContext.Template.ResultDto updateTemplate(MessageContext.Template.ParamDto param);
+    public MessageContext.Template.ResultDto deleteTemplate(MessageContext.Template.ParamDto param);
 
 
-    public MessageContext.Group.ListResultDto groupList(MessageContext.Group.ParamDto param);
+
 }

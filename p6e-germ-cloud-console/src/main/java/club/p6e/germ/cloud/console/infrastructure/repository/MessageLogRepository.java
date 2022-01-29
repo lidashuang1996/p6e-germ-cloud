@@ -18,12 +18,12 @@ public interface MessageLogRepository
 
     @Query(
             nativeQuery = true,
-            value = "select count(A.mark) from (select mark from p6e_message_log group by mark) AS A"
+            value = "select count(A.mark) from (select mark from p6e_message_log where mark like ?1 group by mark) AS A"
     )
-    long countGroupByMarkAndPidAndTidAndSource();
+    long countGroupByMarkAndPidAndTidAndSource(String mark);
 
     @Query(
-            value = "select new club.p6e.germ.cloud.console.infrastructure.model.MessageLogModel(mark, pid, tid, source) from p6e_message_log group by mark, pid, tid, source"
+            value = "select new club.p6e.germ.cloud.console.infrastructure.model.MessageLogModel(mark, pid, tid, source) from p6e_message_log where mark like ?1 group by mark, pid, tid, source"
     )
-    List<MessageLogModel> selectGroupByMarkAndPidAndTidAndSource(PageRequest pageRequest);
+    List<MessageLogModel> selectGroupByMarkAndPidAndTidAndSource(String mark, PageRequest pageRequest);
 }

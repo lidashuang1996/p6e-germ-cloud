@@ -3,22 +3,22 @@
            :maskClosable="false"
            okText="确认"
            cancelText="取消"
-           title="模版查看"
+           title="模版修改"
            v-model:visible="dialog.view">
-    <div class="message-template-watch-dialog">
+    <div class="message-template-update-dialog">
       <div class="input">
-        <span>名称</span>
+        <span>*名称</span>
         <a-input v-model:value="dialog.name" />
       </div>
       <div class="select">
-        <span>类型</span>
+        <span>*类型</span>
         <a-select style="width: 100%"
                   v-model:value="dialog.type">
           <a-select-option v-for="(item, index) in dialog.typeList" :key="index" :value="item.value">{{ item.key }}</a-select-option>
         </a-select>
       </div>
       <div class="select">
-        <span>解析器</span>
+        <span>*解析器</span>
         <a-select style="width: 100%"
                   v-model:value="dialog.parser">
           <a-select-option v-for="(item, index) in dialog.parserList" :key="index" :value="item.value">{{ item.key }}</a-select-option>
@@ -29,11 +29,11 @@
         <a-textarea v-model:value="dialog.describe" />
       </div>
       <div class="input">
-        <span>标题</span>
+        <span>*标题</span>
         <a-input v-model:value="dialog.title" />
       </div>
       <div class="textarea" style="margin: 0;">
-        <span>内容</span>
+        <span>*内容</span>
         <a-textarea v-model:value="dialog.content" />
       </div>
       <div class="error" v-if="dialog.error.length > 0">* {{ dialog.error }}</div>
@@ -51,32 +51,33 @@ import { message } from 'ant-design-vue';
 import { Vue, Options } from 'vue-class-component';
 
 /** 数据结构 */
-export interface MessageTemplateWatchDialogData {
+export interface MessageTemplateUpdateDialogData {
   content: string;
-  createDate: string;
   describe: string;
   id: number;
   name: string;
-  operate: string;
   parser: string;
   title: string;
   type: string;
+  operate: string;
   updateDate: string;
+  createDate: string;
 }
 
-/** <MessageTemplateWatchDialog> 暴露的接口 */
-export interface MessageTemplateWatchDialogVue extends Vue {
+/** <MessageTemplateUpdateDialog> 暴露的接口 */
+export interface MessageTemplateUpdateDialogVue extends Vue {
   /** 打开 */
-  open (data: MessageTemplateWatchDialogData): void;
+  open (data: MessageTemplateUpdateDialogData): void;
   /** 关闭 */
   close (): void;
 }
 
 @Options({})
-export default class MessageTemplateWatchDialog extends Vue implements MessageTemplateWatchDialogVue {
+export default class MessageTemplateUpdateDialog extends Vue implements MessageTemplateUpdateDialogVue {
   private dialog: {
     view: boolean;
     loading: boolean;
+    id: number;
     name: string;
     type: string;
     typeList: { key: string; value: string; }[];
@@ -86,9 +87,13 @@ export default class MessageTemplateWatchDialog extends Vue implements MessageTe
     title: string;
     content: string;
     error: string;
+    operate: string;
+    updateDate: string;
+    createDate: string;
   } = {
-    view: true,
+    view: false,
     loading: false,
+    id: 0,
     name: '',
     type: '',
     typeList: [],
@@ -97,6 +102,9 @@ export default class MessageTemplateWatchDialog extends Vue implements MessageTe
     parserList: [],
     title: '',
     content: '',
+    operate: '',
+    updateDate: '',
+    createDate: '',
     error: ''
   };
 
@@ -105,15 +113,17 @@ export default class MessageTemplateWatchDialog extends Vue implements MessageTe
 
   /** 钩子函数 */
   public async mounted (): Promise<void> {
+    // 获取字典数据
     await this.getDictionaryData();
+    // 初始化字典数据对应的数据内容
     this.dialog.typeList = [];
-    const o1 = this.dictionary['MESSAGE.TEMPLATE.CREATE.TYPE'];
+    const o1 = this.dictionary['MESSAGE.TEMPLATE.UPDATE.TYPE'];
     for (const key in o1) {
       this.dialog.typeList.push({ key: o1[key], value: key });
     }
     this.dialog.type = this.dialog.typeList[0].value;
     this.dialog.parserList = [];
-    const o2 = this.dictionary['MESSAGE.TEMPLATE.CREATE.PARSER'];
+    const o2 = this.dictionary['MESSAGE.TEMPLATE.UPDATE.PARSER'];
     for (const key in o2) {
       this.dialog.parserList.push({ key: o2[key], value: key });
     }
@@ -121,9 +131,19 @@ export default class MessageTemplateWatchDialog extends Vue implements MessageTe
   }
 
   /** 重写打开的方法 */
-  public open (data: MessageTemplateWatchDialogData): void {
+  public open (data: MessageTemplateUpdateDialogData): void {
     this.dialog.view = true;
     this.reset();
+    this.dialog.id = data.id;
+    this.dialog.name = data.name;
+    this.dialog.describe = data.describe;
+    this.dialog.type = data.type;
+    this.dialog.parser = data.parser;
+    this.dialog.title = data.title;
+    this.dialog.content = data.content;
+    this.dialog.operate = data.operate;
+    this.dialog.createDate = data.createDate;
+    this.dialog.updateDate = data.updateDate;
   }
 
   /** 重写关闭的方法 */
@@ -134,22 +154,74 @@ export default class MessageTemplateWatchDialog extends Vue implements MessageTe
 
   /** 重置的方法 */
   private reset (): void {
+    this.dialog.id = 0;
     this.dialog.name = '';
     this.dialog.describe = '';
     this.dialog.title = '';
     this.dialog.content = '';
+    this.dialog.loading = false;
     this.dialog.type = this.dialog.typeList[0].value;
     this.dialog.parser = this.dialog.parserList[0].value;
+    this.dialog.operate = '';
+    this.dialog.createDate = '';
+    this.dialog.updateDate = '';
   }
 
   /** 获取字典的数据 */
   private async getDictionaryData (): Promise<void> {
-    this.dictionary = { ...await Api.dictionary.get({ types: ['MESSAGE.TEMPLATE.CREATE.TYPE', 'MESSAGE.TEMPLATE.CREATE.PARSER'] }) };
+    this.dictionary = {
+      ...await Api.dictionary.get({
+        types: [
+          'MESSAGE.TEMPLATE.UPDATE.TYPE',
+          'MESSAGE.TEMPLATE.UPDATE.PARSER'
+        ]
+      })
+    };
+  }
+
+  /** 确认的方法 */
+  private async confirm (): Promise<void> {
+    if (this.dialog.name === '' ||
+      this.dialog.type === '' ||
+      this.dialog.parser === '' ||
+      this.dialog.title === '' ||
+      this.dialog.content === '') {
+      this.dialog.error = '请输入完整数据';
+      return Promise.resolve();
+    } else {
+      this.dialog.error = '';
+    }
+    if (!this.dialog.loading) {
+      this.dialog.loading = true;
+      const param: HttpMessageTemplateUpdateParam = {
+        id: this.dialog.id,
+        name: this.dialog.name,
+        type: this.dialog.type,
+        parser: this.dialog.parser,
+        title: this.dialog.title,
+        content: this.dialog.content
+      };
+      if (this.dialog.describe !== '') {
+        param.describe = this.dialog.describe;
+      }
+      const res = await Api.message.templateUpdate(param);
+      this.dialog.loading = false;
+      if (res.code === 0) {
+        message.success('操作成功');
+        this.close();
+        this.emitRefresh();
+      }
+    }
+  }
+
+  /** 触发刷新的方法 */
+  private emitRefresh (): void {
+    this.$emit('refresh');
   }
 }
 </script>
 <style lang="scss" scoped>
-.message-template-watch-dialog {
+.message-template-update-dialog {
   .input, .select {
     margin-bottom: 12px;
     display: flex;

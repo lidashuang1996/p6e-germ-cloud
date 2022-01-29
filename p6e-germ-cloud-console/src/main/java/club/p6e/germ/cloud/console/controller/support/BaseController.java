@@ -74,6 +74,7 @@ public class BaseController {
     private static final String DEVICE_HEADER_DEFAULT_CONTENT = "PC";
 
     protected static final String DEFAULT_LANGUAGE = "zh-cmn-Hans";
+    protected static final String DEFAULT_OPERATE = "def_sys";
 
     /**
      * 获取基础的请求与的对象 ServletRequestAttributes

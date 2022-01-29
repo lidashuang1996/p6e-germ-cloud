@@ -69,6 +69,15 @@ public class MessageContext implements Serializable {
         @Accessors(chain = true)
         public static class ParamVo extends BaseContext.ParamVo implements Serializable {
             private String search;
+
+            private Integer weight;
+            private Integer status;
+            private String type;
+            private String limit;
+            private String config;
+            private String actuator;
+            private String name;
+            private String describe;
         }
 
         @Data
@@ -77,6 +86,7 @@ public class MessageContext implements Serializable {
             private Integer id;
             private Integer weight;
             private Integer status;
+            private String type;
             private String limit;
             private String config;
             private String actuator;
@@ -101,6 +111,15 @@ public class MessageContext implements Serializable {
             private String search;
 
             private Integer id;
+            private Integer weight;
+            private Integer status;
+            private String type;
+            private String limit;
+            private String config;
+            private String actuator;
+            private String name;
+            private String describe;
+            private String operate;
         }
 
         @Data
@@ -110,6 +129,7 @@ public class MessageContext implements Serializable {
             private Integer id;
             private Integer weight;
             private Integer status;
+            private String type;
             private String limit;
             private String config;
             private String actuator;
@@ -133,6 +153,7 @@ public class MessageContext implements Serializable {
             private Integer id;
             private Integer weight;
             private Integer status;
+            private String type;
             private String limit;
             private String config;
             private String actuator;
@@ -150,6 +171,13 @@ public class MessageContext implements Serializable {
         @Accessors(chain = true)
         public static class ParamVo extends BaseContext.ParamVo implements Serializable {
             private String search;
+
+            private String type;
+            private String title;
+            private String name;
+            private String parser;
+            private String content;
+            private String describe;
         }
 
         @Data
@@ -180,8 +208,14 @@ public class MessageContext implements Serializable {
         public static class ParamDto extends BaseContext.ParamDto implements Serializable {
             private String search;
 
-
             private Integer id;
+            private String type;
+            private String title;
+            private String name;
+            private String parser;
+            private String content;
+            private String describe;
+            private String operate;
         }
 
         @Data
@@ -223,12 +257,20 @@ public class MessageContext implements Serializable {
         }
     }
 
-    public static class Group implements Serializable {
+    public static class PlatformGroup implements Serializable {
+
         @EqualsAndHashCode(callSuper = true)
         @Data
         @Accessors(chain = true)
         public static class ParamVo extends BaseContext.ParamVo implements Serializable {
             private String search;
+
+            private String type;
+            private Integer status;
+            private String limit;
+            private String route;
+            private String name;
+            private String describe;
         }
 
         @EqualsAndHashCode(callSuper = true)
@@ -236,6 +278,10 @@ public class MessageContext implements Serializable {
         @Accessors(chain = true)
         public static class ListResultVo extends BaseContext.ListResultVo implements Serializable {
             private List<Item> list;
+        }
+
+        @Accessors(chain = true)
+        public static class ResultVo extends Item {
         }
 
         @Data
@@ -246,6 +292,13 @@ public class MessageContext implements Serializable {
 
 
             private Integer id;
+            private String type;
+            private Integer status;
+            private String limit;
+            private String route;
+            private String name;
+            private String describe;
+            private String operate;
         }
 
         @Data

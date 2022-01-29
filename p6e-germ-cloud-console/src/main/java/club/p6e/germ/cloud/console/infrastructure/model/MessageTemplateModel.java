@@ -3,10 +3,7 @@ package club.p6e.germ.cloud.console.infrastructure.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -34,9 +31,12 @@ public class MessageTemplateModel implements Serializable {
     private Integer id;
     private String type;
     private String title;
+    @Column(name = "[name]")
     private String name;
+    @Column(name = "[parser]")
     private String parser;
     private String content;
+    @Column(name = "[describe]")
     private String describe;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;

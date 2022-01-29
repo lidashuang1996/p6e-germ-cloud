@@ -52,7 +52,14 @@ module.exports = {
     HttpMessageLogListResult: true,
 
     HttpMessagePlatformDataResult: true,
-    HttpMessageTemplateDataResult: true
+    HttpMessageTemplateDataResult: true,
+    HttpMessageTemplateCreateParam: true,
+    HttpMessageTemplateUpdateParam: true,
+    HttpMessagePlatformCreateParam: true,
+    HttpMessagePlatformUpdateParam: true,
+    HttpMessagePlatformGroupCreateParam: true,
+    HttpMessagePlatformGroupDeleteParam: true,
+    HttpMessagePlatformGroupUpdateParam: true
 
 
   },
