@@ -12,7 +12,7 @@ import * as __me__ from './module/me';
 import * as __user__ from './module/manage/user';
 import * as __jurisdiction__ from './module/manage/jurisdiction';
 
-import * as __dictionary__ from './module/dictionary';
+import * as __dictionary__ from './module/manage/dictionary';
 
 import * as __message__ from './module/message';
 
@@ -37,7 +37,8 @@ const jurisdiction = { ...__jurisdiction__ };
 const dictionary = { ...__dictionary__ };
 const manage = {
   user: user,
-  jurisdiction: jurisdiction
+  jurisdiction: jurisdiction,
+  dictionary: dictionary
 };
 const message = { ...__message__ };
 

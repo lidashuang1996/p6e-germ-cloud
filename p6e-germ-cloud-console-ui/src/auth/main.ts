@@ -101,7 +101,9 @@ export const jurisdiction = async (): Promise<string[]> => {
       'MessagePlatformGroup',
       'MessagePlatform',
       'MessageTemplate',
-      'MessageLog'
+      'MessageLog',
+      'DictionaryManage',
+      'Resource'
     ];
   }
   return Promise.resolve(jCache);

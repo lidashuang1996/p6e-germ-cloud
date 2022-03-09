@@ -9,8 +9,16 @@ import club.p6e.germ.cloud.console.controller.support.model.JurisdictionContext;
 public interface JurisdictionManageService {
 
 
-    public JurisdictionContext.Path.ListResultDto pathList(JurisdictionContext.Path.ParamDto param);
+    public JurisdictionContext.Url.ListResultDto urlList(JurisdictionContext.Url.ParamDto param);
 
-    public JurisdictionContext.PathGroup.ListResultDto pathGroupList(JurisdictionContext.PathGroup.ParamDto param);
+    public JurisdictionContext.Url.ResultDto createUrl(JurisdictionContext.Url.ParamDto param);
+    public JurisdictionContext.Url.ResultDto updateUrl(JurisdictionContext.Url.ParamDto param);
+    public JurisdictionContext.Url.ResultDto deleteUrl(JurisdictionContext.Url.ParamDto param);
 
+
+
+    public JurisdictionContext.UrlGroup.ListResultDto urlGroupList(JurisdictionContext.UrlGroup.ParamDto param);
+    public JurisdictionContext.UrlGroup.ResultDto createUrlGroup(JurisdictionContext.Url.ParamDto param);
+    public JurisdictionContext.UrlGroup.ResultDto updateUrlGroup(JurisdictionContext.Url.ParamDto param);
+    public JurisdictionContext.UrlGroup.ResultDto deleteUrlGroup(JurisdictionContext.Url.ParamDto param);
 }

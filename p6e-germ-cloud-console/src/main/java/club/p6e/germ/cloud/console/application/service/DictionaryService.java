@@ -11,6 +11,12 @@ import java.util.Map;
  */
 public interface DictionaryService {
 
-    public Map<String, List<DictionaryContext.MapResultDto>> list(DictionaryContext.ParamDto param);
+    public Map<String, List<DictionaryContext.MapResultDto>> type(DictionaryContext.ParamDto param);
+
+    public DictionaryContext.ListResultDto list(DictionaryContext.ParamDto param);
+
+    public DictionaryContext.ResultDto create(DictionaryContext.ParamDto param);
+    public DictionaryContext.ResultDto delete(DictionaryContext.ParamDto param);
+    public DictionaryContext.ResultDto update(DictionaryContext.ParamDto param);
 
 }

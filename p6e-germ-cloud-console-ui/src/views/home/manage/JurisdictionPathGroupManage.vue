@@ -92,7 +92,7 @@ export default class JurisdictionPathGroupManage extends Vue {
     };
     this.table.mark = mark;
     this.table.loading = true;
-    const res = await Api.manage.jurisdiction.pathGroupList(param);
+    const res = await Api.manage.jurisdiction.urlGroupList(param);
     this.table.loading = false;
     if (this.table.mark === mark && res.code === 0) {
       this.table.items = [];

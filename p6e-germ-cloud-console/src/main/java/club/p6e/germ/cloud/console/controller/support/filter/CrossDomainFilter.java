@@ -35,7 +35,7 @@ public class CrossDomainFilter implements Filter {
         /** 缓存用户的请求头信息的对象 */
         private final Map<String, String> myHeader = new HashMap<>();
         /** 跨域头名称 */
-        private static final String CROSS_DOMAIN_HEADER_NAME = "P6e-Cross-Domain";
+        private static final String CROSS_DOMAIN_HEADER_NAME = "P6e-Cross-Domain2222";
         /** 跨域头内容 */
         private static final String CROSS_DOMAIN_HEADER_CONTENT = "existence";
 
@@ -79,9 +79,11 @@ public class CrossDomainFilter implements Filter {
          */
         boolean isCrossDomain() {
             final String crossDomain = myHeader.get(CROSS_DOMAIN_HEADER_NAME.toLowerCase());
+            System.out.println(" isCrossDomain " + crossDomain);
             if (crossDomain == null) {
                 return false;
             } else {
+                System.out.println(" isCrossDomain " + crossDomain + "    " + CROSS_DOMAIN_HEADER_CONTENT.equalsIgnoreCase(crossDomain));
                 return CROSS_DOMAIN_HEADER_CONTENT.equalsIgnoreCase(crossDomain);
             }
         }

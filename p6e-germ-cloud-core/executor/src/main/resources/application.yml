@@ -1,0 +1,19 @@
+server:
+  port: 31000
+
+p6e:
+  cloud:
+    core:
+      content:
+        node:
+          name: 'node1'
+          ip: '127.0.0.1'
+          port: 31000
+          index: 1
+        datasource:
+          url: 'jdbc:mysql://119.23.25.159:3306/p6e?autoReconnect=true&useSSL=false&characterEncoding=UTF-8'
+          username: 'root'
+          password: 'Root1234!@#$'
+          driverClassName: 'com.mysql.cj.jdbc.Driver'
+
+

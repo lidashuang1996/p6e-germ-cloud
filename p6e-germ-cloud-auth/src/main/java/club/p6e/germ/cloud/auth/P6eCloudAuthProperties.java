@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 @Data
 @Component
 @ConfigurationProperties(prefix = "p6e.cloud.auth")
-public class P6eCloudAuthProperties {
+public class P6eCloudAuthProperties implements Serializable {
 
     /** 是否开启 debug */
     private boolean debug = false;

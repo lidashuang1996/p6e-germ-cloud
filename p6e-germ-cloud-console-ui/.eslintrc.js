@@ -59,7 +59,13 @@ module.exports = {
     HttpMessagePlatformUpdateParam: true,
     HttpMessagePlatformGroupCreateParam: true,
     HttpMessagePlatformGroupDeleteParam: true,
-    HttpMessagePlatformGroupUpdateParam: true
+    HttpMessagePlatformGroupUpdateParam: true,
+    HttpManageDictionaryListParam: true,
+    HttpManageDictionaryListItemDataResult: true,
+    HttpManageDictionaryCreateParam: true,
+    HttpManageDictionaryUpdateParam: true,
+    HttpManageJurisdictionPathListParam: true,
+    HttpManageJurisdictionUrlCreateParam: true
 
 
   },

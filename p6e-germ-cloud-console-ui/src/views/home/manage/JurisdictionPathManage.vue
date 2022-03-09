@@ -1,15 +1,25 @@
 <template>
   <layout-container title="权限管理 / 路径配置">
-    <div class="jurisdiction-manage container">
-      <div class="jurisdiction-manage-condition">
-        <a-input-search
-          v-model:value="search.content"
-          placeholder="请输入搜索内容"
-          enter-button="搜索"
-          @enter="onSearch"
-          @search="onSearch"/>
+    <div class="jurisdiction-url-manage container">
+      <div class="jurisdiction-url-manage-condition">
+        <a-input-group compact style="display: flex;">
+          <a-select v-model:value="search.type" style="min-width: 100px;">
+            <a-select-option :key="index"
+                             :value="item.value"
+                             v-for="(item, index) in search.selectTypes">
+              {{ item.key }}
+            </a-select-option>
+          </a-select>
+          <a-input-search
+            v-model:value="search.content"
+            placeholder="请输入搜索内容"
+            enter-button="搜索"
+            @enter="onSearch"
+            @search="onSearch"/>
+        </a-input-group>
+        <a-button type="primary" style="margin-left: 12px;" @click.stop="onCreate">新增</a-button>
       </div>
-      <div class="jurisdiction-path-manage-table" style="margin-top: 24px;">
+      <div class="jurisdiction-url-manage-table" style="margin-top: 24px;">
         <!-- :scroll="{ x: 1500, y: 300 }" -->
         <a-table class="table"
                  :bordered="true"
@@ -17,31 +27,54 @@
                  :columns="table.headers"
                  :data-source="table.items"
                  :locale="table.locale">
-          <template #operation>
+          <!-- 通用 -->
+          <template #text="{ text }">
+            <span class="table-text" :title="text">{{ text }}</span>
+          </template>
+          <template #operation="{ record, index }">
             <span class="table-operation">
-              <a-button type="link">查看</a-button>
-              <a-button type="link">修改</a-button>
-              <a-button type="link" danger>删除</a-button>
+              <a-button type="link" @click.stop="onWatch(record)">查看</a-button>
+              <a-button type="link" @click.stop="onUpdate(record)">修改</a-button>
+              <circular-spin size="14px" color="#ff4d4f" v-if="operation.delete.index === index" style="min-width: 30px;"/>
+              <a-popconfirm
+                v-else
+                placement="topRight"
+                title="你确定删除该条记录吗？"
+                ok-text="是"
+                cancel-text="否"
+                @confirm="onDelete(record, index)">
+                <a-button type="link" danger>删除</a-button>
+              </a-popconfirm>
             </span>
           </template>
         </a-table>
       </div>
     </div>
+    <manage-jurisdiction-url-create-dialog ref="refManageJurisdictionUrlCreateDialog" @refresh="getTableData"/>
   </layout-container>
 </template>
 
 <script lang="ts">
 import Api from '@/api/main';
+import CircularSpin from '@/components/spin/CircularSpin.vue';
 import { Vue, Options } from 'vue-class-component';
-import LayoutContainer from '@/layout/LayoutContainer.vue';
+import ManageJurisdictionUrlCreateDialog, { ManageJurisdictionUrlCreateDialogVue } from '@/components/manage/ManageJurisdictionUrlCreateDialog.vue';
+import { message } from 'ant-design-vue';
 
 @Options({
-  components: { LayoutContainer }
+  components: { ManageJurisdictionUrlCreateDialog, CircularSpin }
 })
 export default class JurisdictionPathManage extends Vue {
   /** 搜索条件 */
   private search: { content: string; } = {
     content: ''
+  };
+
+  /** 操作数据 */
+  private operation: { delete: { index: number; } } = {
+    delete: {
+      index: -1
+    }
   };
 
   /** 表格数据 */
@@ -54,16 +87,16 @@ export default class JurisdictionPathManage extends Vue {
     loading: false, // 是否加载中
     param: {},
     headers: [ // 列表头部
-      { title: 'ID', width: 70, dataIndex: 'id', key: 'id', fixed: 'left' },
-      { title: '名称', width: 80, dataIndex: 'name', key: 'name', fixed: 'left' },
-      { title: '描述', dataIndex: 'describe', key: 'describe', width: 200 },
-      { title: '基础路径', dataIndex: 'baseUrl', key: 'baseUrl', width: 180 },
-      { title: '方法', dataIndex: 'method', key: 'method', width: 100 },
-      { title: '路径', dataIndex: 'url', key: 'url' },
-      { title: '创建时间', dataIndex: 'createDate', key: 'createDate', width: 180 },
-      { title: '更新时间', dataIndex: 'updateDate', key: 'updateDate', width: 180 },
-      { title: '操作人', dataIndex: 'operate', key: 'operate', width: 90 },
-      { title: '操作', key: 'operation', fixed: 'right', width: 130, slots: { customRender: 'operation' } }
+      { title: 'ID', width: 70, dataIndex: 'id', key: 'id', fixed: 'left', slots: { customRender: 'text' } },
+      { title: '名称', width: 80, dataIndex: 'name', key: 'name', slots: { customRender: 'text' } },
+      { title: '描述', dataIndex: 'describe', key: 'describe', width: 200, slots: { customRender: 'text' } },
+      { title: '基础路径', dataIndex: 'baseUrl', key: 'baseUrl', width: 180, slots: { customRender: 'text' } },
+      { title: '方法', dataIndex: 'method', key: 'method', width: 100, slots: { customRender: 'text' } },
+      { title: '路径', dataIndex: 'url', key: 'url', slots: { customRender: 'text' } },
+      { title: '创建时间', dataIndex: 'createDate', key: 'createDate', width: 180, slots: { customRender: 'text' } },
+      { title: '更新时间', dataIndex: 'updateDate', key: 'updateDate', width: 180, slots: { customRender: 'text' } },
+      { title: '操作人', dataIndex: 'operate', key: 'operate', width: 90, slots: { customRender: 'text' } },
+      { title: '操作', key: 'operation', fixed: 'right', width: 140, slots: { customRender: 'operation' } }
     ],
     items: []
   };
@@ -81,6 +114,36 @@ export default class JurisdictionPathManage extends Vue {
     await this.getTableData();
   }
 
+  /** 执行打开创建的弹出层 */
+  private onCreate (): void {
+    (this.$refs.refManageJurisdictionUrlCreateDialog as ManageJurisdictionUrlCreateDialogVue).open();
+  }
+
+  /** 执行打开查看的弹出层 */
+  private onWatch (): void {
+    console.log('123');
+  }
+
+  /** 执行打开修改的弹出层 */
+  private onUpdate (): void {
+    console.log('123');
+  }
+
+  /** 执行删除数据的操作 */
+  private async onDelete (data: HttpManageJurisdictionPathListItemDataResult, index: number): Promise<void> {
+    if (this.operation.delete.index >= 0) {
+      message.info('请等待上一个操作执行完成');
+    } else {
+      this.operation.delete.index = index;
+      const res = await Api.manage.jurisdiction.deleteUrl({ id: data.id });
+      this.operation.delete.index = -1;
+      if (res.code === 0) {
+        message.success('操作成功');
+        await this.getTableData();
+      }
+    }
+  }
+
   /** 获取表格的数据 */
   private async getTableData (): Promise<void> {
     // 防止多次查询, 后返回的数据覆盖之前的数据，只显示最新的数据
@@ -92,7 +155,7 @@ export default class JurisdictionPathManage extends Vue {
     };
     this.table.mark = mark;
     this.table.loading = true;
-    const res = await Api.manage.jurisdiction.pathList(param);
+    const res = await Api.manage.jurisdiction.urlList(param);
     this.table.loading = false;
     if (this.table.mark === mark && res.code === 0) {
       this.table.items = [];
@@ -105,14 +168,30 @@ export default class JurisdictionPathManage extends Vue {
   }
 }
 </script>
-<style lang="scss">
-.jurisdiction-path-manage-table {
-  .table-operation {
+<style lang="scss" scoped>
+.jurisdiction-url-manage {
+  .jurisdiction-url-manage-condition {
     display: flex;
     align-items: center;
-    justify-content: center;
-    .ant-btn {
-      padding: 0 6px;
+    justify-content: space-between;
+  }
+  .jurisdiction-url-manage-table {
+    .table-text {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .table-operation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      .ant-btn {
+        padding: 0;
+      }
     }
   }
 }

@@ -5,19 +5,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.2</version>
+        <version>2.6.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>club.p6e.germ.cloud.gateway</groupId>
+    <groupId>club.p6e.germ.cloud</groupId>
     <artifactId>p6e-germ-cloud-gateway</artifactId>
     <version>0.0.1</version>
     <name>p6e-germ-cloud-gateway</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
-        <alibaba-nacos.version>0.2.9</alibaba-nacos.version>
-        <spring-cloud.version>2020.0.1</spring-cloud.version>
+        <java.version>11</java.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -28,23 +27,11 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- cache -->
-        <dependency>
-            <groupId>com.p6e.germ</groupId>
-            <artifactId>p6e-germ-cache</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
         <!-- common -->
         <dependency>
-            <groupId>com.p6e.germ</groupId>
-            <artifactId>p6e-germ-common</artifactId>
+            <groupId>club.p6e.germ.cloud</groupId>
+            <artifactId>p6e-germ-cloud-common</artifactId>
             <version>0.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -57,10 +44,28 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
+        <!-- spring redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <!-- REDIS [ END ] -->
+
+        <!-- Spring Cloud Gateway -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
         <dependency>
@@ -86,7 +91,7 @@
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2021.1</version>
+                <version>2021.0.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -1,9 +1,4 @@
-declare interface HttpManageJurisdictionPathListParam extends HttpBaseParam{
-  search?: string;
-}
-
-declare interface HttpManageJurisdictionPathListItemDataResult {
-  key?: string;
+declare interface HttpManageJurisdictionUrl {
   baseUrl: string;
   config: string;
   createDate: string;
@@ -15,6 +10,13 @@ declare interface HttpManageJurisdictionPathListItemDataResult {
   updateDate: string;
   url: string;
 }
+declare interface HttpManageJurisdictionPathListParam extends HttpBaseParam{
+  search?: string;
+}
+
+declare interface HttpManageJurisdictionPathListItemDataResult extends HttpManageJurisdictionUrl {
+  key?: string;
+}
 
 declare interface HttpManageJurisdictionPathListDataResult {
   page: number;
@@ -25,6 +27,32 @@ declare interface HttpManageJurisdictionPathListDataResult {
 
 declare type HttpManageJurisdictionPathListResult = HttpBaseResult<HttpManageJurisdictionPathListDataResult>;
 
+declare interface HttpManageJurisdictionUrlCreateParam {
+  baseUrl: string;
+  config: string;
+  describe?: string;
+  method: string;
+  name: string;
+  url: string;
+}
+
+declare type HttpManageJurisdictionUrlCreateResult = HttpBaseResult<HttpManageJurisdictionUrl>;
+
+declare interface HttpManageJurisdictionUrlUpdateParam {
+  baseUrl: string;
+  config: string;
+  describe: string;
+  id: number;
+  method: string;
+  name: string;
+  url: string;
+}
+declare type HttpManageJurisdictionUrlUpdateResult = HttpBaseResult<HttpManageJurisdictionUrl>;
+
+declare interface HttpManageJurisdictionUrlDeleteParam {
+  id: number;
+}
+declare type HttpManageJurisdictionUrlDeleteResult = HttpBaseResult<HttpManageJurisdictionUrl>;
 /** ---------------------------------- */
 
 declare interface HttpManageJurisdictionPathGroupListParam extends HttpBaseParam{

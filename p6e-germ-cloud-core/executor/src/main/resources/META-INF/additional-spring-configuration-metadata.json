@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "p6e.cloud.core.content.node.name",
+      "type": "java.lang.String",
+      "description": "Node name.",
+      "defaultValue": "node"
+    },
+    {
+      "name": "p6e.cloud.core.content.node.ip",
+      "type": "java.lang.String",
+      "description": "Node ip.",
+      "defaultValue": "127.0.0.1"
+    },
+    {
+      "name": "p6e.cloud.core.content.node.port",
+      "type": "java.lang.Integer",
+      "description": "Node port.",
+      "defaultValue": 31000
+    },
+    {
+      "name": "p6e.cloud.core.content.node.index",
+      "type": "java.lang.Integer",
+      "description": "Node index.",
+      "defaultValue": 31000
+    },
+    {
+      "name": "p6e.cloud.core.content.nodes",
+      "type": "club.p6e.germ.cloud.core.content.P6eCloudCoreContentProperties$Node[]",
+      "description": "Other nodes info.",
+      "defaultValue": []
+    }
+  ]
+}

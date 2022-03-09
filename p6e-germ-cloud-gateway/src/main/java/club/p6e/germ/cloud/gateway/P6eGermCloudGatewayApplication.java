@@ -1,8 +1,10 @@
 package club.p6e.germ.cloud.gateway;
 
+import club.p6e.germ.cloud.common.P6e;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.gateway.filter.factory.StripPrefixGatewayFilterFactory;
 
 /**
  * 网关应用
@@ -19,8 +21,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class P6eGermCloudGatewayApplication {
 
+    public static final boolean IS_DEBUG = true;
+
     public static void main(String[] args) {
-        SpringApplication.run(P6eGermCloudGatewayApplication.class, args);
+        P6e.init(
+                SpringApplication.run(P6eGermCloudGatewayApplication.class, args)
+        );
     }
 
 }

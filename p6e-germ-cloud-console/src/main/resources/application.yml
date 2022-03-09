@@ -1,5 +1,5 @@
 server:
-  port: 20000
+  port: 22000
 
 spring:
   datasource:
@@ -9,4 +9,6 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+  application:
+    name: aaa
 

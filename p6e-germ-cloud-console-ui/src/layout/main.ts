@@ -129,8 +129,8 @@ export const MENU_CONFIG: MenuType[] = [
     type: 'button',
     ico: 'PieChartOutlined',
     title: '字典管理',
-    name: 'Dic',
-    jurisdiction: 'Dic'
+    name: 'DictionaryManage',
+    jurisdiction: 'DictionaryManage'
   },
   {
     type: 'button',

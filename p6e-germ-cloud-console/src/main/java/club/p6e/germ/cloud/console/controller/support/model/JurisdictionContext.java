@@ -14,12 +14,33 @@ import java.util.List;
  */
 public class JurisdictionContext implements Serializable {
 
-    public static class Path implements Serializable {
+    public static class Url implements Serializable {
         @EqualsAndHashCode(callSuper = true)
         @Data
         @Accessors(chain = true)
         public static class ParamVo extends BaseContext.ParamVo implements Serializable {
             private String search;
+            private String url;
+            private String baseUrl;
+            private String method;
+            private String config;
+            private String name;
+            private String describe;
+        }
+
+        @Data
+        @Accessors(chain = true)
+        public static class ResultVo implements Serializable {
+            private Integer id;
+            private String url;
+            private String baseUrl;
+            private String method;
+            private String config;
+            private String name;
+            private String describe;
+            private LocalDateTime createDate;
+            private LocalDateTime updateDate;
+            private String operate;
         }
 
         @EqualsAndHashCode(callSuper = true)
@@ -34,6 +55,30 @@ public class JurisdictionContext implements Serializable {
         @EqualsAndHashCode(callSuper = true)
         public static class ParamDto extends BaseContext.ParamDto implements Serializable {
             private String search;
+            private Integer id;
+            private String operate;
+            private String url;
+            private String baseUrl;
+            private String method;
+            private String config;
+            private String name;
+            private String describe;
+        }
+
+        @Data
+        @Accessors(chain = true)
+        @EqualsAndHashCode(callSuper = true)
+        public static class ResultDto extends BaseContext.ResultDto implements Serializable {
+            private Integer id;
+            private String url;
+            private String baseUrl;
+            private String method;
+            private String config;
+            private String name;
+            private String describe;
+            private LocalDateTime createDate;
+            private LocalDateTime updateDate;
+            private String operate;
         }
 
         @Data
@@ -59,7 +104,7 @@ public class JurisdictionContext implements Serializable {
         }
     }
 
-    public static class PathGroup implements Serializable {
+    public static class UrlGroup implements Serializable {
         @EqualsAndHashCode(callSuper = true)
         @Data
         @Accessors(chain = true)
@@ -79,6 +124,12 @@ public class JurisdictionContext implements Serializable {
         @Accessors(chain = true)
         public static class ParamDto extends BaseContext.ParamDto implements Serializable {
             private String search;
+        }
+
+        @EqualsAndHashCode(callSuper = true)
+        @Data
+        @Accessors(chain = true)
+        public static class ResultDto extends BaseContext.ResultDto implements Serializable {
         }
 
         @Data

@@ -2,6 +2,7 @@ package club.p6e.germ.cloud.console.infrastructure.repository;
 
 import club.p6e.germ.cloud.console.infrastructure.model.DictionaryModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
@@ -9,7 +10,8 @@ import java.util.List;
  * @author lidashuang
  * @version 1.0
  */
-public interface DictionaryRepository extends JpaRepository<DictionaryModel, Integer> {
+public interface DictionaryRepository
+        extends JpaRepository<DictionaryModel, Integer>, JpaSpecificationExecutor<DictionaryModel> {
 
     /**
      * 根据类型查询数据

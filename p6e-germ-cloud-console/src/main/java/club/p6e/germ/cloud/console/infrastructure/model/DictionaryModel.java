@@ -3,10 +3,7 @@ package club.p6e.germ.cloud.console.infrastructure.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,8 +29,11 @@ public class DictionaryModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String type;
+    @Column(name = "[language]")
     private String language;
+    @Column(name = "[key]")
     private String key;
+    @Column(name = "[value]")
     private String value;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
