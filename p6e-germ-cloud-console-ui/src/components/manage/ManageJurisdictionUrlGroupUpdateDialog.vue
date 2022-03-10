@@ -1,12 +1,11 @@
 <template>
-  <a-modal
-    :centered="true"
-    :maskClosable="false"
-    okText="确认"
-    cancelText="取消"
-    title="路径创建"
-    v-model:visible="dialog.view">
-    <div class="manage-jurisdiction-url-create-dialog">
+  <a-modal :centered="true"
+           :maskClosable="false"
+           okText="确认"
+           cancelText="取消"
+           title="路径修改"
+           v-model:visible="dialog.view">
+    <div class="manage-jurisdiction-url-update-dialog">
       <div class="input">
         <span>*名称</span>
         <a-input v-model:value="dialog.name" />
@@ -50,86 +49,126 @@ import Mixins from '@/mixins/main';
 import { message } from 'ant-design-vue';
 import { mixins, Vue, Options } from 'vue-class-component';
 
-/** <ManageJurisdictionUrlCreateDialog> 暴露的接口 */
-export interface ManageJurisdictionUrlCreateDialogVue extends Vue {
+/** 数据结构 */
+export interface ManageJurisdictionUrlGroupUpdateDialogData {
+  baseUrl: string;
+  config: string;
+  createDate: string;
+  describe: string;
+  id: number;
+  method: string;
+  name: string;
+  operate: string;
+  updateDate: string;
+  url: string;
+}
+
+/** <ManageJurisdictionUrlUpdateDialog> 暴露的接口 */
+export interface ManageJurisdictionUrlGroupUpdateDialogVue extends Vue {
   /** 打开 */
-  open(): void;
+  open (data: ManageJurisdictionUrlGroupUpdateDialogData): void;
   /** 关闭 */
-  close(): void;
+  close (): void;
 }
 
 @Options({})
-export default class ManageJurisdictionUrlCreateDialog
-  extends mixins(Mixins.dictionary) implements ManageJurisdictionUrlCreateDialogVue {
+export default class ManageJurisdictionUrlGroupUpdateDialog
+  extends mixins(Mixins.dictionary) implements ManageJurisdictionUrlGroupUpdateDialogVue {
   private dialog: {
     view: boolean;
     loading: boolean;
     error: string;
     baseUrl: string;
     config: string;
+    createDate: string;
     describe: string;
+    id: number;
     method: string;
     methodSelections: { key: string; value: string }[];
     name: string;
+    operate: string;
+    updateDate: string;
     url: string;
   } = {
     view: false,
     loading: false,
     error: '',
     baseUrl: '',
-    config: '{}',
+    config: '',
+    createDate: '',
     describe: '',
+    id: 0,
     method: '',
     methodSelections: [],
     name: '',
+    operate: '',
+    updateDate: '',
     url: ''
   };
 
   /** 钩子函数 */
-  public async mounted(): Promise<void> {
+  public async mounted (): Promise<void> {
     // 获取字典数据
-    await this.getDictionaryData(['MANAGE.JURISDICTION.URL.CREATE.METHOD']);
+    await this.getDictionaryData([
+      'MANAGE.JURISDICTION.URL.UPDATE.METHOD'
+    ]);
     // 初始化字典数据对应的数据内容
     this.dialog.methodSelections = [];
     if (this.dictionaryData) {
       const ms = [];
-      for (const key in this.dictionaryData['MANAGE.JURISDICTION.URL.CREATE.METHOD']) {
+      for (const key in this.dictionaryData['MANAGE.JURISDICTION.URL.UPDATE.METHOD']) {
         ms.push({
           key: key,
-          value: this.dictionaryData['MANAGE.JURISDICTION.URL.CREATE.METHOD'][key]
+          value: this.dictionaryData['MANAGE.JURISDICTION.URL.UPDATE.METHOD'][key]
         });
       }
       this.dialog.methodSelections = ms;
-      this.dialog.method = this.dialog.methodSelections[0].value;
     }
   }
 
   /** 重写打开的方法 */
-  public open(): void {
-    this.dialog.view = true;
+  public open (data: ManageJurisdictionUrlGroupUpdateDialogData): void {
     this.reset();
+    this.dialog.view = true;
+    this.dialog.id = data.id;
+    this.dialog.name = data.name;
+    this.dialog.describe = data.describe;
+    this.dialog.method = this.dictionaryData['MANAGE.JURISDICTION.URL.UPDATE.METHOD'][data.method]
+      ? this.dictionaryData['MANAGE.JURISDICTION.URL.UPDATE.METHOD'][data.method]
+      : data.method;
+    this.dialog.url = data.url;
+    this.dialog.baseUrl = data.baseUrl;
+    this.dialog.config = data.config;
+    this.dialog.operate = data.operate;
+    this.dialog.createDate = data.createDate;
+    this.dialog.updateDate = data.updateDate;
   }
 
   /** 重写关闭的方法 */
-  public close(): void {
-    this.dialog.view = false;
+  public close (): void {
     this.reset();
+    this.dialog.view = false;
   }
 
   /** 重置的方法 */
-  private reset(): void {
+  private reset (): void {
+    this.dialog.view = false;
     this.dialog.loading = false;
     this.dialog.error = '';
-    this.dialog.baseUrl = '';
-    this.dialog.config = '{}';
-    this.dialog.describe = '';
+    this.dialog.id = 0;
     this.dialog.name = '';
+    this.dialog.describe = '';
+    this.dialog.method = '';
     this.dialog.url = '';
-    this.dialog.method = this.dialog.methodSelections[0].value;
+    this.dialog.baseUrl = '';
+    this.dialog.config = '';
+    this.dialog.operate = '';
+    this.dialog.createDate = '';
+    this.dialog.updateDate = '';
   }
 
   /** 确认的方法 */
-  private async confirm(): Promise<void> {
+  private async confirm (): Promise<void> {
     if (this.dialog.name === '' || this.dialog.config === '') {
       this.dialog.error = '请输入完整数据';
       return Promise.resolve();
@@ -144,7 +183,8 @@ export default class ManageJurisdictionUrlCreateDialog
     }
     if (!this.dialog.loading) {
       this.dialog.loading = true;
-      const param: HttpManageJurisdictionUrlCreateParam = {
+      const param: HttpManageJurisdictionUrlUpdateParam = {
+        id: this.dialog.id,
         name: this.dialog.name,
         baseUrl: this.dialog.baseUrl,
         url: this.dialog.url,
@@ -154,7 +194,7 @@ export default class ManageJurisdictionUrlCreateDialog
       if (this.dialog.describe !== '') {
         param.describe = this.dialog.describe;
       }
-      const res = await Api.manage.jurisdiction.createUrl(param);
+      const res = await Api.manage.jurisdiction.updateUrl(param);
       this.dialog.loading = false;
       if (res.code === 0) {
         message.success('操作成功');
@@ -165,15 +205,14 @@ export default class ManageJurisdictionUrlCreateDialog
   }
 
   /** 触发刷新的方法 */
-  private emitRefresh(): void {
+  private emitRefresh (): void {
     this.$emit('refresh');
   }
 }
 </script>
 <style lang="scss" scoped>
-.manage-jurisdiction-url-create-dialog {
-  .input,
-  .select {
+.manage-jurisdiction-url-update-dialog {
+  .input, .select {
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -190,7 +229,7 @@ export default class ManageJurisdictionUrlCreateDialog
     }
   }
   .error {
-    color: red;
+    color: red;;
     margin-top: 12px;
   }
 }

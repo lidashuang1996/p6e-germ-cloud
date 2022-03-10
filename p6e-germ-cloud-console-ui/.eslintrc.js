@@ -16,7 +16,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     semi: ['error', 'always'],
-    'space-before-function-paren': ['error', 'always'],
+    "space-before-function-paren": 0,
+    // 'space-before-function-paren': ['error', 'always'],
     'no-empty-function': ['warn', { allow: ['functions'] }]
   },
   globals: {
@@ -65,7 +66,10 @@ module.exports = {
     HttpManageDictionaryCreateParam: true,
     HttpManageDictionaryUpdateParam: true,
     HttpManageJurisdictionPathListParam: true,
-    HttpManageJurisdictionUrlCreateParam: true
+    HttpManageJurisdictionUrlCreateParam: true,
+    HttpManageJurisdictionUrlUpdateParam: true,
+    HttpManageJurisdictionUrlGroupListParam: true,
+    HttpManageJurisdictionUrlGroupListItemDataResult: true
 
 
   },

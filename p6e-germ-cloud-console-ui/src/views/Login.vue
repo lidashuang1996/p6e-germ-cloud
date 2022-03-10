@@ -17,18 +17,17 @@ import Config from '@/config/main';
 import { Vue, Options } from 'vue-class-component';
 @Options({})
 export default class Login extends Vue {
-  /** 是否开启 DEBUG */
-  private isDebug = false;
-
-  /**
-   * 钩子函数
-   */
-  public mounted (): void {
-    this.isDebug = Config.isDebug();
+  /** 生命周期函数 */
+  public mounted(): void {
     /** 没有开启 DEBUG 就去登录授权页面 */
-    if (!this.isDebug) {
+    if (!Config.isDebug()) {
       window.location.href = Api.login.oauth();
     }
+  }
+
+  /** 计算属性 IS_DEBUG */
+  public get isDebug(): boolean {
+    return Config.isDebug();
   }
 }
 </script>

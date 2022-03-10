@@ -1,7 +1,5 @@
 server:
   port: 31000
-#  http2:
-#    enabled: true
 spring:
   application:
     # 程序名称

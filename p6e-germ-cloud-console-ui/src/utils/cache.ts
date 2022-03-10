@@ -20,6 +20,7 @@ export interface ICache {
  * 采用 LocalStorage 对 Cache 的实现
  */
 class LocalStorageCache implements ICache {
+  // {"token":"123456"}
   private readonly USER_NAME = 'P6E_GERM_CLOUD_CONSOLE_USER';
   private readonly THEME_NAME = 'P6E_GERM_CLOUD_CONSOLE_THEME';
 

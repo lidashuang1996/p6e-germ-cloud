@@ -22,10 +22,8 @@ declare interface TableView<T, W, R = undefined> {
   search?: string;
   headers: TableHeaderView[];
   param: T;
-  sort?: { [key: string]: string };
-  sortSelect?: string;
-  extend?: R;
   items: W[];
+  extend?: R;
   dictionary?: { [key: string]: { [key: string]: string } }
   locale?: {
     filterConfirm?: string;

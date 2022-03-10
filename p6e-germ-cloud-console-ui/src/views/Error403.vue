@@ -1,23 +1,25 @@
 <template>
-  <div>
-    <div class="error403">
-      <a-result status="403" title="403" sub-title="无访问权限" style="margin: 32px;">
-        <template #extra>
-          <a-button type="primary" @click.stop="toWebsiteHomePage">返回首页 ({{ count }}S)</a-button>
-        </template>
-      </a-result>
-    </div>
+  <div class="error403">
+    <a-result status="403" title="403" sub-title="无访问权限" style="margin: 32px">
+      <template #extra>
+        <a-button type="primary" @click.stop="toWebsiteHomePage">返回首页 ({{ count }}S)</a-button>
+      </template>
+    </a-result>
   </div>
 </template>
 
 <script lang="ts">
-import Extend from '@/extend/main';
+import Mixins from '@/mixins/main';
 import { Options, mixins } from 'vue-class-component';
 @Options({})
-export default class Error403 extends mixins(Extend.base) {
+export default class Error403 extends mixins(Mixins.base) {
+  /** 是否执行 */
   private is = false;
+  /** 倒计时次数 */
   private count = 8;
-  public mounted (): void {
+
+  /** 生命周期函数 */
+  public mounted(): void {
     const fun = () => {
       if (this.is) {
         this.count = this.count - 1;
@@ -32,7 +34,8 @@ export default class Error403 extends mixins(Extend.base) {
     setTimeout(() => fun(), 1000);
   }
 
-  public destroyed (): void {
+  /** 生命周期函数 */
+  public destroyed(): void {
     this.is = false;
   }
 }

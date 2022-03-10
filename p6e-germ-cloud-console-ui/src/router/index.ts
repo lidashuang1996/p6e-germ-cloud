@@ -38,12 +38,12 @@ const AUTH_ROUTES: Array<RouteRecordRaw> = [
       {
         path: '/manage/jurisdiction/path',
         name: 'JurisdictionPathManage',
-        component: () => import('../views/home/manage/JurisdictionPathManage.vue')
+        component: () => import('../views/home/manage/jurisdiction/ManageJurisdictionUrl.vue')
       },
       {
         path: '/manage/jurisdiction/path/group',
         name: 'JurisdictionPathGroupManage',
-        component: () => import('../views/home/manage/JurisdictionPathGroupManage.vue')
+        component: () => import('../views/home/manage/jurisdiction/ManageJurisdictionUrlGroup.vue')
       },
       {
         path: '/manage/dictionary',

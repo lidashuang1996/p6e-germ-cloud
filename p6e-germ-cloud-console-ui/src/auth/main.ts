@@ -24,9 +24,11 @@ const refreshPage = (path = ''): void => {
   const protocol = location.protocol;
   const hostname = location.hostname;
   const port = location.port;
-  let url = protocol + '//' + hostname + (
-    (protocol === 'http:' && port === '80') ? ''
-      : ((protocol === 'https:' && port === '443') ? '' : (':' + port)));
+  let url =
+    protocol +
+    '//' +
+    hostname +
+    (protocol === 'http:' && port === '80' ? '' : protocol === 'https:' && port === '443' ? '' : ':' + port);
   // 是否存在需要添加的路径地址
   if (path === null || path === undefined || path === '') {
     const pathname = location.pathname;
@@ -35,7 +37,7 @@ const refreshPage = (path = ''): void => {
     url += '/' + path;
   }
   // window.location.href = url + param;
-  console.log(url + param);
+  console.log('window.location.href -> ' + url + param);
 };
 
 /** 认证初始化 */
@@ -95,7 +97,8 @@ export const jurisdiction = async (): Promise<string[]> => {
     console.log(getUser());
     jStatus = true;
     jCache = [
-      'Home', 'Dashboard',
+      'Home',
+      'Dashboard',
       'JurisdictionPathGroupManage',
       'JurisdictionPathManage',
       'MessagePlatformGroup',

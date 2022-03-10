@@ -11,12 +11,16 @@
 </template>
 
 <script lang="ts">
-import Extend from '@/extend/main';
+import Mixins from '@/mixins/main';
 import { Options, mixins } from 'vue-class-component';
 @Options({})
-export default class Error404 extends mixins(Extend.base) {
+export default class Error404 extends mixins(Mixins.base) {
+  /** 是否执行 */
   private is = false;
+  /** 倒计时次数 */
   private count = 8;
+
+  /** 生命周期函数 */
   public mounted (): void {
     const fun = () => {
       if (this.is) {
@@ -32,6 +36,7 @@ export default class Error404 extends mixins(Extend.base) {
     setTimeout(() => fun(), 1000);
   }
 
+  /** 生命周期函数 */
   public destroyed (): void {
     this.is = false;
   }

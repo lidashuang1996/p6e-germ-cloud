@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <layout-main/>
-  </div>
+  <layout-main />
 </template>
 
 <script lang="ts">

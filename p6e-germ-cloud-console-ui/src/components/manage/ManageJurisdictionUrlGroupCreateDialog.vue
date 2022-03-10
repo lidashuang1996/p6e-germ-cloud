@@ -6,7 +6,7 @@
     cancelText="取消"
     title="路径创建"
     v-model:visible="dialog.view">
-    <div class="manage-jurisdiction-url-create-dialog">
+    <div class="manage-jurisdiction-url-group-create-dialog">
       <div class="input">
         <span>*名称</span>
         <a-input v-model:value="dialog.name" />
@@ -51,7 +51,7 @@ import { message } from 'ant-design-vue';
 import { mixins, Vue, Options } from 'vue-class-component';
 
 /** <ManageJurisdictionUrlCreateDialog> 暴露的接口 */
-export interface ManageJurisdictionUrlCreateDialogVue extends Vue {
+export interface ManageJurisdictionUrlGroupCreateDialogVue extends Vue {
   /** 打开 */
   open(): void;
   /** 关闭 */
@@ -59,8 +59,8 @@ export interface ManageJurisdictionUrlCreateDialogVue extends Vue {
 }
 
 @Options({})
-export default class ManageJurisdictionUrlCreateDialog
-  extends mixins(Mixins.dictionary) implements ManageJurisdictionUrlCreateDialogVue {
+export default class ManageJurisdictionUrlGroupCreateDialog
+  extends mixins(Mixins.dictionary) implements ManageJurisdictionUrlGroupCreateDialogVue {
   private dialog: {
     view: boolean;
     loading: boolean;
@@ -171,7 +171,7 @@ export default class ManageJurisdictionUrlCreateDialog
 }
 </script>
 <style lang="scss" scoped>
-.manage-jurisdiction-url-create-dialog {
+.manage-jurisdiction-url-group-create-dialog {
   .input,
   .select {
     margin-bottom: 12px;

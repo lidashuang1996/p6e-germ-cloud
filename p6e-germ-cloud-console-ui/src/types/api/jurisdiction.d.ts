@@ -41,7 +41,7 @@ declare type HttpManageJurisdictionUrlCreateResult = HttpBaseResult<HttpManageJu
 declare interface HttpManageJurisdictionUrlUpdateParam {
   baseUrl: string;
   config: string;
-  describe: string;
+  describe?: string;
   id: number;
   method: string;
   name: string;
@@ -54,30 +54,35 @@ declare interface HttpManageJurisdictionUrlDeleteParam {
 }
 declare type HttpManageJurisdictionUrlDeleteResult = HttpBaseResult<HttpManageJurisdictionUrl>;
 /** ---------------------------------- */
-
-declare interface HttpManageJurisdictionPathGroupListParam extends HttpBaseParam{
-  search?: string;
-}
-
-declare interface HttpManageJurisdictionPathGroupListItemDataResult {
-  key?: string;
-  baseUrl: string;
-  config: string;
+declare interface HttpManageJurisdictionUrlGroup {
   createDate: string;
   describe: string;
   id: number;
-  method: string;
   name: string;
   operate: string;
   updateDate: string;
-  url: string;
+  weight: number;
 }
 
-declare interface HttpManageJurisdictionPathGroupListDataResult {
+declare interface HttpManageJurisdictionUrlGroupListParam extends HttpBaseParam{
+  search?: string;
+}
+
+declare interface HttpManageJurisdictionUrlGroupListItemDataResult extends HttpManageJurisdictionUrlGroup {
+  key?: string;
+}
+
+declare interface HttpManageJurisdictionUrlGroupListDataResult {
   page: number;
   size: number;
   total: number;
-  list: HttpManageJurisdictionPathGroupListItemDataResult[];
+  list: HttpManageJurisdictionUrlGroupListItemDataResult[];
 }
 
-declare type HttpManageJurisdictionPathGroupListResult = HttpBaseResult<HttpManageJurisdictionPathGroupListDataResult>;
+declare type HttpManageJurisdictionUrlGroupListResult = HttpBaseResult<HttpManageJurisdictionUrlGroupListDataResult>;
+
+declare interface HttpManageJurisdictionUrlGroupDeleteParam {
+  id: number;
+}
+
+declare type HttpManageJurisdictionUrlGroupDeleteResult = HttpBaseResult<HttpManageJurisdictionUrlGroup>;

@@ -2,25 +2,26 @@
   <layout-container title="字典管理">
     <div class="dictionary-manage container">
       <div class="dictionary-manage-condition">
-        <a-input-group compact style="display: flex;">
+        <a-input-group compact style="display: flex">
           <a-input-search
             v-model:value="search.content"
             placeholder="请输入搜索内容"
             enter-button="搜索"
             @enter="onSearch"
-            @search="onSearch"/>
+            @search="onSearch" />
         </a-input-group>
-        <a-button type="primary" style="margin-left: 12px;" @click.stop="onCreate">新增</a-button>
+        <a-button type="primary" style="margin-left: 12px" @click.stop="onCreate">新增</a-button>
       </div>
-      <div class="dictionary-manage-table" style="margin-top: 24px;">
-        <a-table class="table"
-                 :scroll="{ x: 1500, y: 300 }"
-                 :bordered="true"
-                 :pagination="false"
-                 :loading="table.loading"
-                 :columns="table.headers"
-                 :data-source="table.items"
-                 :locale="table.locale">
+      <div class="dictionary-manage-table" style="margin-top: 24px">
+        <a-table
+          class="table"
+          :scroll="{ x: 1500, y: 300 }"
+          :bordered="true"
+          :pagination="false"
+          :loading="table.loading"
+          :columns="table.headers"
+          :data-source="table.items"
+          :locale="table.locale">
           <!-- 通用 -->
           <template #text="{ text }">
             <span class="table-text" :title="text">{{ text }}</span>
@@ -29,7 +30,11 @@
             <span class="table-operation">
               <a-button type="link" @click.stop="onWatch(record)">查看</a-button>
               <a-button type="link" @click.stop="onUpdate(record)">修改</a-button>
-              <circular-spin size="14px" color="#ff4d4f" v-if="operation.delete.index === index" style="min-width: 30px;"/>
+              <circular-spin
+                size="14px"
+                color="#ff4d4f"
+                v-if="operation.delete.index === index"
+                style="min-width: 30px" />
               <a-popconfirm
                 v-else
                 placement="topRight"
@@ -44,16 +49,17 @@
         </a-table>
       </div>
       <div class="dictionary-manage-pagination">
-        <a-pagination show-quick-jumper
-                      :defaultPageSize="table.size"
-                      :total="table.total"
-                      v-model:current="table.page"
-                      @change="onPaginationChange"/>
+        <a-pagination
+          show-quick-jumper
+          :defaultPageSize="table.size"
+          :total="table.total"
+          v-model:current="table.page"
+          @change="onPaginationChange" />
       </div>
     </div>
-    <manage-dictionary-create-dialog ref="refManageDictionaryCreateDialog" @refresh="getTableData"/>
-    <manage-dictionary-watch-dialog ref="refManageDictionaryWatchDialog" @refresh="getTableData"/>
-    <manage-dictionary-update-dialog ref="refManageDictionaryUpdateDialog" @refresh="getTableData"/>
+    <manage-dictionary-create-dialog ref="refManageDictionaryCreateDialog" @refresh="getTableData" />
+    <manage-dictionary-watch-dialog ref="refManageDictionaryWatchDialog" @refresh="getTableData" />
+    <manage-dictionary-update-dialog ref="refManageDictionaryUpdateDialog" @refresh="getTableData" />
   </layout-container>
 </template>
 
@@ -62,18 +68,27 @@ import Api from '@/api/main';
 import CircularSpin from '@/components/spin/CircularSpin.vue';
 import { Vue, Options } from 'vue-class-component';
 import { message } from 'ant-design-vue';
-import ManageDictionaryCreateDialog, { ManageDictionaryCreateDialogVue } from '@/components/manage/ManageDictionaryCreateDialog.vue';
-import ManageDictionaryWatchDialog, { ManageDictionaryWatchDialogVue } from '@/components/manage/ManageDictionaryWatchDialog.vue';
-import ManageDictionaryUpdateDialog, { ManageDictionaryUpdateDialogVue } from '@/components/manage/ManageDictionaryUpdateDialog.vue';
+import ManageDictionaryCreateDialog, {
+  ManageDictionaryCreateDialogVue
+} from '@/components/manage/ManageDictionaryCreateDialog.vue';
+import ManageDictionaryWatchDialog, {
+  ManageDictionaryWatchDialogVue
+} from '@/components/manage/ManageDictionaryWatchDialog.vue';
+import ManageDictionaryUpdateDialog, {
+  ManageDictionaryUpdateDialogVue
+} from '@/components/manage/ManageDictionaryUpdateDialog.vue';
 
 @Options({
   components: {
-    ManageDictionaryUpdateDialog, ManageDictionaryWatchDialog, ManageDictionaryCreateDialog, CircularSpin
+    ManageDictionaryUpdateDialog,
+    ManageDictionaryWatchDialog,
+    ManageDictionaryCreateDialog,
+    CircularSpin
   }
 })
 export default class DictionaryManage extends Vue {
   /** 搜索条件 */
-  private search: { type: string; selectTypes: { name: string; value: string; }[]; content: string; } = {
+  private search: { type: string; selectTypes: { name: string; value: string }[]; content: string } = {
     type: '',
     selectTypes: [
       { name: '全部', value: '' },
@@ -85,7 +100,7 @@ export default class DictionaryManage extends Vue {
   };
 
   /** 操作数据 */
-  private operation: { delete: { index: number; } } = {
+  private operation: { delete: { index: number } } = {
     delete: {
       index: -1
     }
@@ -100,7 +115,8 @@ export default class DictionaryManage extends Vue {
     error: '', // 错误消息
     loading: false, // 是否加载中
     param: {}, // 请求的参数
-    headers: [ // 列表头部
+    headers: [
+      // 列表头部
       { title: 'ID', width: 70, dataIndex: 'id', key: 'id', fixed: 'left', slots: { customRender: 'text' } },
       { title: '类型', key: 'type', dataIndex: 'type', width: 300, slots: { customRender: 'text' } },
       { title: '语言', dataIndex: 'language', key: 'language', width: 110, slots: { customRender: 'text' } },
@@ -112,7 +128,8 @@ export default class DictionaryManage extends Vue {
       { title: '操作', key: 'operation', fixed: 'right', width: 140, slots: { customRender: 'operation' } }
     ],
     items: [], // 数据内容
-    locale: { // 本地化的语言类型
+    locale: {
+      // 本地化的语言类型
       filterConfirm: '确定',
       filterReset: '重置',
       emptyText: '暂无数据'
@@ -120,16 +137,18 @@ export default class DictionaryManage extends Vue {
   };
 
   /** 表格数据状态 */
-  private tableItemDataStatus: { [ key: number ]: { name: string; color: string } } =
-    { 0: { name: '禁用', color: 'red' }, 1: { name: '启用', color: 'blue' } };
+  private tableItemDataStatus: { [key: number]: { name: string; color: string } } = {
+    0: { name: '禁用', color: 'red' },
+    1: { name: '启用', color: 'blue' }
+  };
 
   /** 声明周期函数 */
-  public async mounted (): Promise<void> {
+  public async mounted(): Promise<void> {
     await this.getTableData();
   }
 
   /** 执行搜索的方法 */
-  private async onSearch (): Promise<void> {
+  private async onSearch(): Promise<void> {
     this.table.param = {};
     if (this.search.content !== '') {
       this.table.param.search = this.search.content;
@@ -137,20 +156,20 @@ export default class DictionaryManage extends Vue {
     await this.getTableData();
   }
 
-  private async onCreate (): Promise<void> {
+  private async onCreate(): Promise<void> {
     (this.$refs.refManageDictionaryCreateDialog as ManageDictionaryCreateDialogVue).open();
   }
 
-  private async onWatch (data: HttpManageDictionaryListItemDataResult): Promise<void> {
+  private async onWatch(data: HttpManageDictionaryListItemDataResult): Promise<void> {
     (this.$refs.refManageDictionaryWatchDialog as ManageDictionaryWatchDialogVue).open(data);
   }
 
-  private async onUpdate (data: HttpManageDictionaryListItemDataResult): Promise<void> {
+  private async onUpdate(data: HttpManageDictionaryListItemDataResult): Promise<void> {
     (this.$refs.refManageDictionaryUpdateDialog as ManageDictionaryUpdateDialogVue).open(data);
   }
 
   /** 执行删除数据的操作 */
-  private async onDelete (data: HttpManageDictionaryListItemDataResult, index: number): Promise<void> {
+  private async onDelete(data: HttpManageDictionaryListItemDataResult, index: number): Promise<void> {
     if (this.operation.delete.index >= 0) {
       message.info('请等待上一个操作执行完成');
     } else {
@@ -165,13 +184,13 @@ export default class DictionaryManage extends Vue {
   }
 
   /** 执行分页改变事件 */
-  private async onPaginationChange (page: number): Promise<void> {
+  private async onPaginationChange(page: number): Promise<void> {
     this.table.page = page;
     await this.getTableData();
   }
 
   /** 获取表格的数据 */
-  private async getTableData (): Promise<void> {
+  private async getTableData(): Promise<void> {
     // 防止多次查询, 后返回的数据覆盖之前的数据，只显示最新的数据
     const mark = String(new Date().getTime());
     const param: HttpManageDictionaryListParam = {
@@ -186,7 +205,7 @@ export default class DictionaryManage extends Vue {
     if (this.table.mark === mark && res.code === 0) {
       this.table.items = [];
       this.table.total = res.data.total;
-      res.data.list.forEach(item => {
+      res.data.list.forEach((item) => {
         item.kv = item.key;
         item.key = String(item.id);
         this.table.items.push(item);
