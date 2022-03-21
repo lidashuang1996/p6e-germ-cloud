@@ -1,6 +1,6 @@
 package club.p6e.germ.cloud.console.controller.manage;
 
-import club.p6e.germ.cloud.console.application.service.UserManageService;
+import club.p6e.germ.cloud.console.application.service.ManageUserService;
 import club.p6e.germ.cloud.console.controller.support.ApiResultContext;
 import club.p6e.germ.cloud.console.controller.support.model.UserContext;
 import club.p6e.germ.cloud.console.infrastructure.auth.AuthInfo;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class UserManageController {
 
     @Resource
-    private UserManageService userManageService;
+    private ManageUserService userManageService;
 
     @GetMapping("/list")
     public ApiResultContext getList(UserContext.ParamVo param) {

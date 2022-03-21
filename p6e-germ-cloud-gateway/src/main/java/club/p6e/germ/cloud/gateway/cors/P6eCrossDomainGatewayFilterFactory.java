@@ -1,7 +1,5 @@
 package club.p6e.germ.cloud.gateway.cors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -24,11 +22,8 @@ import java.util.List;
 @Component
 public class P6eCrossDomainGatewayFilterFactory extends AbstractGatewayFilterFactory<Object> {
 
-    /** 顺序 */
+    /** 顺序（越小越先被执行） */
     private static final int ORDER = -1400;
-
-    /** 日志对象 */
-    private static final Logger LOGGER = LoggerFactory.getLogger(P6eCrossDomainGatewayFilterFactory.class);
 
     @Override
     public GatewayFilter apply(Object config) {
@@ -51,9 +46,9 @@ public class P6eCrossDomainGatewayFilterFactory extends AbstractGatewayFilterFac
             System.out.println("222222222222222222222222");
             final ServerHttpRequest request = exchange.getRequest();
             final ServerHttpResponse response = exchange.getResponse();
-            LOGGER.debug("Cross Domain ==> " + request.getPath() + " [ " + request.getMethodValue() + " ].");
             final List<String> content = request.getHeaders().get(CROSS_DOMAIN_HEADER_NAME);
-            if (content != null && content.size() > 0) {
+            if (content != null && content.size() > 0
+                    && content.get(0).equalsIgnoreCase(CROSS_DOMAIN_HEADER_CONTENT)) {
                 // 存在跨域的处理标记，无需处理
                 return chain.filter(exchange);
             } else {
@@ -83,6 +78,7 @@ public class P6eCrossDomainGatewayFilterFactory extends AbstractGatewayFilterFac
                                 "X-File-Name", "X-File-Type", "Cache-Control", "Origin", "Client"
                         )
                 );
+                // 写入的已经跨域的标记的请求头
                 return chain.filter(exchange.mutate()
                         .request(request.mutate().header(CROSS_DOMAIN_HEADER_NAME, CROSS_DOMAIN_HEADER_CONTENT).build())
                         .response(response).build());

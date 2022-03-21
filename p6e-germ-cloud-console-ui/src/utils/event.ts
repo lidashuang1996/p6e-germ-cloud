@@ -1,6 +1,6 @@
 /** 事件管理中心 */
 // eslint-disable-next-line
-const MC: { [key: string]: { fun: (...ea: any) => void, weight: number, transmit: boolean }[] } = {};
+const MC: { [key: string]: { fun: (...ea: any) => void; weight: number; transmit: boolean }[] } = {};
 
 /**
  * 触发事件监听器
@@ -28,7 +28,12 @@ export const triggerEvent = (eventName: string, ...eventArguments: any): void =>
  * @param transmit 是否向下传递
  */
 // eslint-disable-next-line
-export const addEventListener = (eventName: string, eventFunction: (...ea: any) => void, weight = 0, transmit = true): void => {
+export const addEventListener = (
+  eventName: string,
+  eventFunction: (...ea: any) => void,
+  weight = 0,
+  transmit = true
+): void => {
   if (MC[eventName]) {
     const eventList = MC[eventName];
     for (let i = 0; i < eventList.length; i++) {

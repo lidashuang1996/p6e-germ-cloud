@@ -24,27 +24,27 @@ class LocalStorageCache implements ICache {
   private readonly USER_NAME = 'P6E_GERM_CLOUD_CONSOLE_USER';
   private readonly THEME_NAME = 'P6E_GERM_CLOUD_CONSOLE_THEME';
 
-  public delUserData (): void {
+  public delUserData(): void {
     window.localStorage.removeItem(this.USER_NAME);
   }
 
-  public getUserData (): string | null {
+  public getUserData(): string | null {
     return window.localStorage.getItem(this.USER_NAME);
   }
 
-  public setUserData (v: string): void {
+  public setUserData(v: string): void {
     window.localStorage.setItem(this.USER_NAME, v);
   }
 
-  public delTheme (): void {
+  public delTheme(): void {
     window.localStorage.removeItem(this.THEME_NAME);
   }
 
-  public getTheme (): string | null {
+  public getTheme(): string | null {
     return window.localStorage.getItem(this.THEME_NAME);
   }
 
-  public setTheme (v: string): void {
+  public setTheme(v: string): void {
     window.localStorage.setItem(this.THEME_NAME, v);
   }
 }

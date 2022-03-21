@@ -10,6 +10,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,8 +51,8 @@ public class P6eRefererGatewayFilterFactory extends AbstractGatewayFilterFactory
 
         /**
          * 构造方法
-         * 通过构造方法初始化 Referer 服务
          * @param service Referer 服务
+         * @param whiteList 白名单列表
          */
         public CustomGatewayFilter(RefererService service, List<String> whiteList) {
             this.service = service;
@@ -60,7 +61,10 @@ public class P6eRefererGatewayFilterFactory extends AbstractGatewayFilterFactory
 
         @Override
         public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-            return service.execute(exchange, whiteList).flatMap(chain::filter).switchIfEmpty(RefererService.exceptionErrorResult(exchange));
+            return service
+                    .execute(exchange, whiteList)
+                    .flatMap(chain::filter)
+                    .switchIfEmpty(RefererService.exceptionErrorResult(exchange));
         }
 
         @Override
@@ -71,6 +75,6 @@ public class P6eRefererGatewayFilterFactory extends AbstractGatewayFilterFactory
 
     @Data
     public static class Config {
-        private List<String> whiteList;
+        private List<String> whiteList = new ArrayList<>();
     }
 }

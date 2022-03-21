@@ -24,13 +24,13 @@ spring:
           predicates:
             - Path=/a/**
           filters:
-            - name: P6eCleaner
             - name: P6eLog
-            - name: P6eCrossDomain
+            - name: P6eCleaner
             - name: P6eReferer
               args:
                 whiteList:
                   - '*'
+            - name: P6eCrossDomain
             - name: P6eAuth
 #            - name: P6eJurisdiction
             - name: StripPrefix

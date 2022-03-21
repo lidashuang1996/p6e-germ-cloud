@@ -7,12 +7,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 网关应用
- * 1. 自定义 CORS
- * 2. 权限验证
- * 3. 用户信息写入
- * 4. 应用路由
- * 5. 日志
- * 6. 异常
+ * 1. 异常
+ * 2. 日志
+ * 3. 清除器
+ * 4. Referer
+ * 5. 自定义 CORS
+ * 6. 用户认证
+ * 7. 权限验证
+ * 8. 应用路由
  * @author lidashuang
  * @version 1.0
  */

@@ -20,6 +20,7 @@
       <div class="manage-jurisdiction-url-table" style="margin-top: 24px">
         <!-- :scroll="{ x: 1500, y: 300 }" -->
         <a-table
+          ref="refA"
           class="table"
           :bordered="true"
           :loading="table.loading"
@@ -78,6 +79,12 @@ import ManageJurisdictionUrlWatchDialog, {
 } from '@/components/manage/ManageJurisdictionUrlWatchDialog.vue';
 
 @Options({
+  setup: () => {
+    const a = ref(1);
+    return {
+      a
+    };
+  },
   components: {
     ManageJurisdictionUrlWatchDialog,
     ManageJurisdictionUrlUpdateDialog,

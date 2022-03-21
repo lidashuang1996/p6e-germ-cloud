@@ -1,11 +1,10 @@
 package club.p6e.germ.cloud.console.controller.manage;
 
-import club.p6e.germ.cloud.console.application.service.JurisdictionManageService;
+import club.p6e.germ.cloud.console.application.service.ManageJurisdictionService;
 import club.p6e.germ.cloud.console.controller.support.ApiResultContext;
 import club.p6e.germ.cloud.console.controller.support.BaseController;
 import club.p6e.germ.cloud.console.controller.support.model.JurisdictionContext;
 import club.p6e.germ.cloud.console.infrastructure.model.ErrorModel;
-import com.p6e.germ.common.P6e;
 import com.p6e.germ.common.utils.P6eCopyUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ import javax.annotation.Resource;
 public class JurisdictionManageController extends BaseController {
 
     @Resource
-    private JurisdictionManageService jurisdictionManageService;
+    private ManageJurisdictionService jurisdictionManageService;
 
     /*--------------[ url (START)]--------------*/
 

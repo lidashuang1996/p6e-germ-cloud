@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 字典服务
  * @author lidashuang
  * @version 1.0
  */

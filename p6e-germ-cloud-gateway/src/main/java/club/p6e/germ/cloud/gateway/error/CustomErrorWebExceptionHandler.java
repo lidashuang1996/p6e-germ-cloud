@@ -27,8 +27,9 @@ import java.util.Map;
 @Component
 public class CustomErrorWebExceptionHandler extends DefaultErrorWebExceptionHandler implements Ordered {
 
-    /** 顺序 */
+    /** 顺序（越小越先被执行） */
     private static final int ORDER = -2000;
+
     /** 格式化时间对象 */
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
 

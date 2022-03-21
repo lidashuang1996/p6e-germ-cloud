@@ -8,8 +8,7 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 
 /**
- * 对认证缓存服务的实现
- * 认证缓存服务采用的 REDIS 的方法实现
+ * 认证缓存服务 Redis 的方法实现
  * @author lidashuang
  * @version 1.0
  */

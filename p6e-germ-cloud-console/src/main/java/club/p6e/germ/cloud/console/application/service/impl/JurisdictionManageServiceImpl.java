@@ -1,12 +1,11 @@
 package club.p6e.germ.cloud.console.application.service.impl;
 
-import club.p6e.germ.cloud.console.application.service.JurisdictionManageService;
+import club.p6e.germ.cloud.console.application.service.ManageJurisdictionService;
 import club.p6e.germ.cloud.console.controller.support.model.JurisdictionContext;
 import club.p6e.germ.cloud.console.domain.aggregate.jurisdiction.JurisdictionPathGroupManageAggregate;
 import club.p6e.germ.cloud.console.domain.aggregate.jurisdiction.JurisdictionPathManageAggregate;
 import club.p6e.germ.cloud.console.domain.entity.manage.jurisdiction.JurisdictionUrlEntity;
 import club.p6e.germ.cloud.console.domain.entity.manage.jurisdiction.JurisdictionUrlGroupEntity;
-import club.p6e.germ.cloud.console.infrastructure.model.DictionaryModel;
 import club.p6e.germ.cloud.console.infrastructure.model.JurisdictionUrlGroupModel;
 import club.p6e.germ.cloud.console.infrastructure.model.JurisdictionUrlModel;
 import com.p6e.germ.common.utils.P6eCopyUtil;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class JurisdictionManageServiceImpl implements JurisdictionManageService {
+public class JurisdictionManageServiceImpl implements ManageJurisdictionService {
 
     @Override
     public JurisdictionContext.Url.ListResultDto urlList(JurisdictionContext.Url.ParamDto param) {

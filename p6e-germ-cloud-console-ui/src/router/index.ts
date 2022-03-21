@@ -26,11 +26,6 @@ const AUTH_ROUTES: Array<RouteRecordRaw> = [
         component: () => import('../views/home/dashboard/Dashboard.vue')
       },
       {
-        path: '/resource',
-        name: 'Resource',
-        component: () => import('../views/home/resource/Resource.vue')
-      },
-      {
         path: '/manage/user',
         name: 'UserManage',
         component: () => import('../views/home/manage/UserManage.vue')

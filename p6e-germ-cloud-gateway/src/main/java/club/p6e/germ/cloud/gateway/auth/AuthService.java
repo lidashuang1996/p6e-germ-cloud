@@ -16,9 +16,9 @@ import java.time.format.DateTimeFormatter;
  *
  * 自定义认证过滤器
  * 1. 从请求头中读取数据
- * 2. 读取 REDIS 中的数据
+ * 2. 读取 Redis 中的数据
  * 3. 验证数据
- * 4. 验证通过放行
+ * 4. 写入用户数据到请求头
  * 5. 注意执行的顺序
  *
  * @author lidashuang
@@ -41,7 +41,7 @@ public interface AuthService {
         final ServerHttpRequest request = exchange.getRequest();
         final ServerHttpResponse response = exchange.getResponse();
         final String result = "{\"timestamp\":\"" + DATE_TIME_FORMATTER.format(LocalDateTime.now()) + "\",\"path\":\""
-                + request.getPath() + "\",\"message\":\"Bad Request\",\"requestId\":\"" + request.getId() + "\",\"code\":400}";
+                + request.getPath() + "\",\"message\":\"No Auth\",\"requestId\":\"" + request.getId() + "\",\"code\":400}";
         response.setStatusCode(HttpStatus.BAD_REQUEST);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         return response.writeWith(Mono.just(response.bufferFactory().wrap(result.getBytes(StandardCharsets.UTF_8))));

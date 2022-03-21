@@ -21,6 +21,7 @@ public class P6eAuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Ob
     /** 顺序（越小越先被执行） */
     private static final int ORDER = -1000;
 
+    /** 注入的服务 */
     @Resource
     private AuthService service;
 
@@ -39,7 +40,7 @@ public class P6eAuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Ob
 
         /**
          * 构造方法
-         * 通过构造方法初始化认证服务
+         * 通过构造方法注入认证服务
          * @param service 认证服务
          */
         public CustomGatewayFilter(AuthService service) {
@@ -48,7 +49,13 @@ public class P6eAuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Ob
 
         @Override
         public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-            return service.execute(exchange).flatMap(chain::filter).switchIfEmpty(AuthService.exceptionErrorResult(exchange));
+            return service
+                    // 执行认证服务
+                    .execute(exchange)
+                    // 认证成功继续执行下游服务
+                    .flatMap(chain::filter)
+                    // 认证失败返回错误的信息数据
+                    .switchIfEmpty(AuthService.exceptionErrorResult(exchange));
         }
 
         @Override

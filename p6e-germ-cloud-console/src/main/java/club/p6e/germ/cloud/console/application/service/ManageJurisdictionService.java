@@ -6,7 +6,7 @@ import club.p6e.germ.cloud.console.controller.support.model.JurisdictionContext;
  * @author lidashuang
  * @version 1.0
  */
-public interface JurisdictionManageService {
+public interface ManageJurisdictionService {
 
 
     public JurisdictionContext.Url.ListResultDto urlList(JurisdictionContext.Url.ParamDto param);

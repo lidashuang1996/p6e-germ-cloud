@@ -1,6 +1,6 @@
 package club.p6e.germ.cloud.console.application.service.impl;
 
-import club.p6e.germ.cloud.console.application.service.UserManageService;
+import club.p6e.germ.cloud.console.application.service.ManageUserService;
 import club.p6e.germ.cloud.console.controller.support.model.UserContext;
 import club.p6e.germ.cloud.console.domain.aggregate.manage.user.UserManageAggregate;
 import club.p6e.germ.cloud.console.domain.entity.manage.user.UserManageEntity;
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class UserManageServiceImpl implements UserManageService {
+public class UserManageServiceImpl implements ManageUserService {
 
     @Override
     public UserContext.ResultDto update(UserContext.ParamDto param) {
